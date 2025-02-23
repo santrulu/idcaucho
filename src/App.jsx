@@ -205,7 +205,10 @@ const styles = {
 const ciudadesNacimiento = [
   'BOGOTA D.C - CUNDINAMARCA',
   'CHIA - CUNDINAMARCA',
-  'MEDELLIN - ANTIOQUIA', 
+  'MEDELLIN - ANTIOQUIA',
+  'CALDAS - ANTIOQUIA',
+  'PASTO - NARIÑO',
+  'HISPANIA - ANTIOQUIA', 
   'CALI - VALLE DEL CAUCA',
   'BARRANQUILLA - ATLANTICO',
   'TUNJA - BOYACA',
@@ -338,17 +341,17 @@ function App() {
           width: 892,
           height: 1770
         });
-
+  
         const aspectRatio = canvas.height / canvas.width;
         const pdfWidth = 210;
         const pdfHeight = pdfWidth * aspectRatio;
-
+  
         const pdf = new jsPDF({
           orientation: pdfHeight > pdfWidth ? 'portrait' : 'landscape',
           unit: 'mm',
           format: [pdfWidth, pdfHeight]
         });
-
+  
         pdf.addImage(
           canvas.toDataURL('image/jpeg', 1.0),
           'JPEG',
@@ -357,21 +360,24 @@ function App() {
           pdfWidth,
           pdfHeight
         );
-
-        let fileName = '';
-        switch (petData.id) {
-          case '1.025.533.107':
+  
+        // Determinamos el nombre del archivo según el ID
+        const cleanId = petData.id.replace(/\./g, ''); // Removemos los puntos del ID
+        let fileName;
+        switch (cleanId) {
+          case '1025533107':
             fileName = 'Comprobante de documento en trÃ¡mite 1025533107';
             break;
-          case '1.011.323.064':
+          case '1011323064':
             fileName = 'Comprobante de documento en trÃ¡mite 1011323064';
             break;
-          case '1.141.515.448':
+          case '1141515448':
             fileName = 'Comprobante de documento en trÃ¡mite 1141515448';
             break;
           default:
             fileName = 'documento';
         }
+  
         pdf.save(`${fileName}.pdf`);
       } catch (error) {
         console.error('Error al generar PDF:', error);
