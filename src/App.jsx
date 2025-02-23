@@ -186,18 +186,21 @@ const styles = {
     },
     firmaText: {
       position: 'absolute',
-      fontFamily: '"Ink Free", cursive, sans-serif',
+      fontFamily: '"Ink Free", "Segoe Script", "Comic Sans MS", cursive',
+      fontWeight: '400',
+      fontStyle: 'normal',
       fontSize: '39px',
       top: 643,
       left: '26.5%',
       transform: 'translateX(-50%)',
-      fontWeight: 'normal',
       zIndex: 5,
       textAlign: 'center',
       maxWidth: '36.9%',
       whiteSpace: 'nowrap',
       overflow: 'hidden',
-      textOverflow: 'ellipsis'
+      textOverflow: 'ellipsis',
+      WebkitFontSmoothing: 'antialiased',
+      MozOsxFontSmoothing: 'grayscale'
     }
   }
 };
