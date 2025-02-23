@@ -186,7 +186,7 @@ const styles = {
     },
     firmaText: {
       position: 'absolute',
-      fontFamily: 'Ink Free',
+      fontFamily: '"Ink Free", cursive, sans-serif',
       fontSize: '39px',
       top: 643,
       left: '26.5%',
