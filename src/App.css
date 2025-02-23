@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Ink Free';
+  src: local('Ink Free');
+}
+
+.id-card {
+  background-image: url('/id-background.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: top center;
+}
