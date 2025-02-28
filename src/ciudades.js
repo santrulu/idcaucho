@@ -1,0 +1,89 @@
+export const ciudadesNacimiento = [
+    // ATLANTICO
+    'BARRANQUILLA - ATLANTICO',
+    'SOLEDAD - ATLANTICO',
+    
+    // BOLIVAR
+    'CARTAGENA - BOLIVAR',
+    'MAGANGUE - BOLIVAR',
+    
+    // BOYACA
+    'TUNJA - BOYACA',
+    'DUITAMA - BOYACA',
+    
+    // CALDAS
+    'MANIZALES - CALDAS',
+    'CHINCHINA - CALDAS',
+    
+    // CASANARE
+    'YOPAL - CASANARE',
+    'AGUAZUL - CASANARE',
+    
+    // CAUCA
+    'POPAYAN - CAUCA',
+    'SANTANDER DE QUILICHAO - CAUCA',
+    
+    // CESAR
+    'VALLEDUPAR - CESAR',
+    'AGUACHICA - CESAR',
+    
+    // CUNDINAMARCA
+    'BOGOTA D.C - CUNDINAMARCA',
+    'BOGOTA D.C - ANTONIO NARIÑO',
+    'CHIA - CUNDINAMARCA',
+    'ZIPAQUIRA - CUNDINAMARCA',
+    
+    // HUILA
+    'NEIVA - HUILA',
+    'LA PLATA - HUILA',
+    'PITALITO - HUILA',
+    'GARZON - HUILA',
+    'CAMPOALEGRE - HUILA',
+    'RIVERA - HUILA',
+    
+    // MAGDALENA
+    'SANTA MARTA - MAGDALENA',
+    'CIENAGA - MAGDALENA',
+    
+    // META
+    'VILLAVICENCIO - META',
+    'ACACIAS - META',
+    
+    // NARIÑO
+    'PASTO - NARIÑO',
+    'IPIALES - NARIÑO',
+    
+    // NORTE DE SANTANDER
+    'CUCUTA - NORTE DE SANTANDER',
+    'OCAÑA - NORTE DE SANTANDER',
+    
+    // ANTIOQUIA
+    'MEDELLIN - ANTIOQUIA',
+    'CALDAS - ANTIOQUIA',
+    'ENVIGADO - ANTIOQUIA',
+    'HISPANIA - ANTIOQUIA',
+    'BELLO - ANTIOQUIA',
+    
+    // RISARALDA
+    'PEREIRA - RISARALDA',
+    'DOSQUEBRADAS - RISARALDA',
+    
+    // SANTANDER
+    'BUCARAMANGA - SANTANDER',
+    'FLORIDABLANCA - SANTANDER',
+    'GIRON - SANTANDER',
+    
+    // SUCRE
+    'SINCELEJO - SUCRE',
+    'COROZAL - SUCRE',
+    
+    // TOLIMA
+    'IBAGUE - TOLIMA',
+    'ESPINAL - TOLIMA',
+    
+    // VALLE DEL CAUCA
+    'CALI - VALLE DEL CAUCA',
+    'CARTAGO - VALLE DEL CAUCA',
+    'LA UNION - VALLE DEL CAUCA',
+    'BUENAVENTURA - VALLE DEL CAUCA'
+  ];
