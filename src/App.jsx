@@ -369,7 +369,7 @@ function App() {
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
       <div className="w-full max-w-md bg-white rounded shadow-lg p-6 mb-8">
-        <h2 className="text-xl font-bold mb-6">Generador de ID de Mascota</h2>
+      <h2 className="text-xl font-bold mb-6">Generador de ID de Mascota - Actualizado</h2>
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-2">Seleccione una opción</label>
