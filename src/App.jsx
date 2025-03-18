@@ -423,6 +423,14 @@ function App() {
       preparationPlace: 'BOGOTA D.C - CHAPINERO',
       deliveryOffice: 'BOGOTA D.C - CHAPINERO',
       qrNumber: '8514500000'
+    },
+    {
+      id: 'CC-2', // Cambia el id a CC-2
+      birthDate: '2007-01-01',
+      expeditionDate: '2025-01-01',
+      preparationPlace: 'BOGOTA D.C - CHAPINERO',
+      deliveryOffice: 'BOGOTA D.C - CHAPINERO',
+      qrNumber: '8514500000'
     }
   ];
 
@@ -554,8 +562,10 @@ function App() {
     // Longitud estándar para cada línea
     const longitudLinea = 44;
     
-    // Primera línea fija (mantenerla igual)
-    const linea1 = "ICCOL000009839472452045<<<<<<<<<".padEnd(longitudLinea, '<');
+    // Primera línea fija (cambia según la opción)
+  const linea1 = selectedOption === 'CC-1' 
+  ? "ICCOL000009839472452045<<<<<<<<<".padEnd(longitudLinea, '<') 
+  : "ICCOL00000789023452045<<<<<<<<<".padEnd(longitudLinea, '<');
     
     // Segunda línea: Fecha nacimiento + M/F + altura + COL + numeroID + <5
     const fechaNacParte = petData.birthDate ? petData.birthDate.replaceAll('-', '').substring(2) : "000000";
@@ -667,8 +677,8 @@ function App() {
           allowTaint: true,
           logging: true,
           backgroundColor: '#ffffff',
-          width: selectedOption === 'CC-1' ? 792 : 892, // Ajusta el ancho para la opción 4
-          height: selectedOption === 'CC-1' ? 1070 : 1770, // Ajusta el alto para la opción 4
+          width: selectedOption === 'CC-1' || selectedOption === 'CC-2' ? 792 : 892, // Ajusta el ancho para las opciones 4 y 5
+          height: selectedOption === 'CC-1' || selectedOption === 'CC-2' ? 1070 : 1770, // Ajusta el alto para las opciones 4 y 5
         });
   
         const aspectRatio = canvas.height / canvas.width;
@@ -691,9 +701,11 @@ function App() {
         );
   
         let fileName;
-        if (selectedOption === 'CC-1') {
-          fileName = 'Documento CC 1';
-        } else {
+
+      // Lógica para las opciones 4 y 5 (CC-1 y CC-2)
+      if (selectedOption === 'CC-1') {
+        fileName = petData.numeroId; // Usar el número de ID como nombre del archivo
+      } else {
           const cleanId = petData.id.replace(/\./g, '');
           switch (cleanId) {
             case '1025533107':
@@ -718,7 +730,7 @@ function App() {
   };
 
   const renderCardContent = () => {
-    if (selectedOption === 'CC-1') {
+    if (selectedOption === 'CC-1' || selectedOption === 'CC-2') {
       return (
         <div style={styles.cc1Container}>
           <div style={styles.paperBackground} />
@@ -850,19 +862,19 @@ function App() {
         }}>
           O+
           </div>
-          {/* Nuevo texto estatico "009839472" */}
-        <div style={{
-          ...styles.textStyles.cc1Text,
-          fontFamily: 'OCRB, monospace',
-          top: '680px',          // Ajusta esta coordenada Y según necesites
-          left: '20px',         // Ajusta esta coordenada X según necesites
-          fontSize: '20px',      // Ajusta el tamaño de fuente según necesites
-          transform: 'rotate(-90deg)', // Gira el texto -90 grados
-          fontWeight: 'normal',    // Puedes ajustar el peso de la fuente
-          color: 'black'           // Opcionalmente, puedes cambiar el color
-        }}>
-          009839472
-          </div>
+          {/* Texto estático para la opción 4 y 5 */}
+<div style={{
+  ...styles.textStyles.cc1Text,
+  fontFamily: 'OCRB, monospace',
+  top: '680px',
+  left: '20px',
+  fontSize: '20px',
+  transform: 'rotate(-90deg)',
+  fontWeight: 'normal',
+  color: 'black'
+}}>
+  {selectedOption === 'CC-1' ? '009839472' : '00789023'} {/* Cambia según la opción */}
+</div>
           <div style={{
   position: 'absolute',
   fontFamily: 'OCRB, monospace',
@@ -904,7 +916,185 @@ function App() {
       </div>
     </div>
   );
+} else if (selectedOption === 'CC-2') { // Nueva condición para la opción 5
+  return (
+    <div style={styles.cc1Container}>
+      <div style={styles.paperBackground} />
+      <img 
+        src="/ok.png" 
+        alt="OK" 
+        style={styles.okImage} 
+      />
+      
+      {petData.photo && (
+        <img 
+          src={petData.photo}
+          alt="Foto"
+          style={styles.photoCC1}
+        />
+      )}
+      
+      {petData.modifiedPhoto && (
+        <img 
+          src={petData.modifiedPhoto}
+          alt="Foto con blanco y negro y opacidad"
+          style={styles.photoCC1Opacity}
+        />
+      )}
+      
+      {petData.blackWhitePhoto && (
+        <img 
+          src={petData.blackWhitePhoto}
+          alt="Foto con blanco y negro y opacidad"
+          style={styles.photoCC1BlackWhite}
+        />
+      )}
+      
+      <img 
+        src="/cuerpo_cc.png" 
+        alt="Cuerpo CC" 
+        style={styles.cuerpoCC} 
+      />
+      
+      <div style={styles.cc1TextLayer}>
+        <div style={{...styles.textStyles.cc1Text, top: '94px', left: '318px'}}>
+          {petData.apellidos}
+        </div>
+        
+        <div style={{...styles.textStyles.cc1Text, top: '155px', left: '318px'}}>
+          {petData.nombres}
+        </div>
+        
+        <div style={{
+          ...styles.textStyles.cc1Text,
+          top: '62px',
+          left: '614px',
+          fontSize: '20px',
+          fontWeight: 'normal'
+        }}>
+          {formatearNumeroId(petData.numeroId)}
+        </div>
+        
+        <div style={{...styles.textStyles.cc1Text, top: '250px', left: '318px'}}>
+          {getFormattedDate(petData.birthDate)}
+        </div>
+        
+        <div style={{
+          ...styles.textStyles.cc1Text,
+          top: '292px',
+          left: '318px',
+          fontSize: '20px',
+          fontWeight: 'normal'
+        }}>
+          {formatearLugarNacimiento(petData.birthPlace)}
+        </div>
+        
+        <div style={{...styles.textStyles.cc1Text, top: '209px', left: '550px'}}>
+          {petData.sex}
+        </div>
+        
+        <div style={{...styles.textStyles.cc1Text, top: '209px', left: '463px'}}>
+          {petData.altura}
+        </div>
+        
+        <div style={{
+          ...styles.textStyles.cc1Text,
+          top: '418px',
+          left: '22%',
+          transform: 'translateX(-50%)',
+          fontFamily: '"Ink Free", "Segoe Script", "Comic Sans MS", cursive',
+          fontWeight: '400',
+          fontSize: '32px'
+        }}>
+          {petData.firma}
+        </div>
+        
+        <img
+          src="/marca_cc.png"
+          alt="Marca CC"
+          style={styles.marcaCC}
+        />
+        
+        <img
+          src="/mariposa_cc.png"
+          alt="Mariposa CC"
+          style={styles.mariposaCC}
+        />
+        
+        <div style={{
+          ...styles.textStyles.cc1Text,
+          top: '210px',
+          left: '318px',
+          fontSize: '20px',
+          fontWeight: 'normal'
+        }}>
+          COL
+        </div>
+        
+        <div style={{
+          ...styles.textStyles.cc1Text,
+          top: '245px',
+          left: '463px',
+          fontSize: '20px',
+          fontWeight: 'normal',
+          color: 'black'
+        }}>
+          O+
+        </div>
+        
+        <div style={{
+          ...styles.textStyles.cc1Text,
+          fontFamily: 'OCRB, monospace',
+          top: '680px',
+          left: '20px',
+          fontSize: '20px',
+          transform: 'rotate(-90deg)',
+          fontWeight: 'normal',
+          color: 'black'
+        }}>
+          002940384 {/* Cambiado */}
+        </div>
+        
+        <div style={{
+          position: 'absolute',
+          fontFamily: 'OCRB, monospace',
+          fontSize: '38px',
+          letterSpacing: '0px',
+          lineHeight: '1.1',
+          bottom: '50px',
+          left: '70px',
+          whiteSpace: 'pre',
+          zIndex: 6,
+          width: '660px',
+          overflow: 'hidden'
+        }}>
+          {`ICCOL000002940384788394<<<<<<<<<\n${formatMRZ().linea2}\n${formatMRZ().linea3}`}
+        </div>
+        
+        <div style={{
+          ...styles.textStyles.cc1Text,
+          top: '414px',
+          left: '318px',
+          fontSize: '20px',
+          fontWeight: 'normal'
+        }}>
+          {calcularFechaCon10Anos(petData.expeditionDate)}
+        </div>
+        
+        <div style={{
+          ...styles.textStyles.cc1Text,
+          top: '354px',
+          left: '318px',
+          fontSize: '20px',
+          fontWeight: 'normal'
+        }}>
+          {calcularFechaExpedicion()}
+        </div>
+      </div>
+    </div>
+  );
 } else {
+
       return (
         <div style={styles.idCardContainer}>
           <div style={styles.layeredBackground} />
@@ -1011,7 +1201,7 @@ function App() {
 
   // Renderizar formulario dinámico según la opción seleccionada
   const renderForm = () => {
-    if (selectedOption === 'CC-1') {
+    if (selectedOption === 'CC-1' || selectedOption === 'CC-2') {
       // Formulario para la opción 4 (CC-1)
       return (
         <>
@@ -1194,20 +1384,22 @@ function App() {
         <option value="1.011.323.064">Opción 2: 1.011.323.064</option>
         <option value="1.141.515.448">Opción 3: 1.141.515.448</option>
         <option value="CC-1">Opción 4: cc 1</option>
+        <option value="CC-2">Opción 5: cc 2</option> {/* Nueva opción */}
       </select>
     </div>
 
-    {selectedOption === 'CC-1' && (
-      <div>
-        <label className="block text-sm font-medium mb-2">Foto</label>
-        <input
-          type="file"
-          accept="image/*"
-          className="w-full p-2 border border-gray-300 rounded"
-          onChange={handlePhotoChange}
-        />
-      </div>
-    )}
+    {/* Input para la foto en la opción 4 y 5 */}
+{(selectedOption === 'CC-1' || selectedOption === 'CC-2') && (
+  <div>
+    <label className="block text-sm font-medium mb-2">Foto</label>
+    <input
+      type="file"
+      accept="image/*"
+      className="w-full p-2 border border-gray-300 rounded"
+      onChange={handlePhotoChange}
+    />
+  </div>
+)}
 
           {/* Renderizar formulario dinámicamente según la opción seleccionada */}
           {selectedOption && renderForm()}
