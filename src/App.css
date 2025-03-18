@@ -2,7 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-
+@font-face {
+  font-family: 'OCRB';
+  src: url('/fonts/OCRB-Normal.ttf') format('truetype');  /* Ajusta el nombre del archivo */
+  font-weight: normal;
+  font-style: normal;
+}
 
 .id-card {
   background-image: url('/id-background.png');
@@ -10,3 +15,13 @@
   background-repeat: no-repeat;
   background-position: top center;
 }
+.cuerpo_cc {
+  position: relative; /* Necesario para que z-index funcione */
+  z-index: 10; /* Mayor valor, aparece adelante */
+}
+
+.imagen {
+  position: absolute; /* Permite que la imagen se superponga */
+  z-index: 1; /* Menor valor, se va atrás */
+}
+margin-top: 100px; /* Ajusta el valor según lo necesites */
