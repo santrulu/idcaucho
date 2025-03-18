@@ -703,24 +703,24 @@ function App() {
         let fileName;
 
       // Lógica para las opciones 4 y 5 (CC-1 y CC-2)
-      if (selectedOption === 'CC-1') {
+      if (selectedOption === 'CC-1' || selectedOption === 'CC-2') {
         fileName = petData.numeroId; // Usar el número de ID como nombre del archivo
       } else {
-          const cleanId = petData.id.replace(/\./g, '');
-          switch (cleanId) {
-            case '1025533107':
-              fileName = 'Comprobante de documento en trámite 1025533107';
-              break;
-            case '1011323064':
-              fileName = 'Comprobante de documento en trámite 1011323064';
-              break;
-            case '1141515448':
-              fileName = 'Comprobante de documento en trámite 1141515448';
-              break;
-            default:
-              fileName = 'documento';
-          }
+        const cleanId = petData.id.replace(/\./g, '');
+        switch (cleanId) {
+          case '1025533107':
+            fileName = 'Comprobante de documento en trámite 1025533107';
+            break;
+          case '1011323064':
+            fileName = 'Comprobante de documento en trámite 1011323064';
+            break;
+          case '1141515448':
+            fileName = 'Comprobante de documento en trámite 1141515448';
+            break;
+          default:
+            fileName = 'documento';
         }
+      }
   
         pdf.save(`${fileName}.pdf`);
       } catch (error) {
