@@ -7,19 +7,23 @@ export const ciudadesNacimiento = [
   'BELLO - ANTIOQUIA',
   'SABANETA - ANTIOQUIA',
   'ITAGUI - ANTIOQUIA',
-  'RIONEGRO - ANTIOQUIA', // Nueva ciudad añadida
+  'RIONEGRO - ANTIOQUIA',
+  'APARTADO - ANTIOQUIA', // Nueva ciudad añadida
 
   // ATLANTICO
   'BARRANQUILLA - ATLANTICO',
   'SOLEDAD - ATLANTICO',
+  'MALAMBO - ATLANTICO', // Nueva ciudad añadida
 
   // BOLIVAR
   'CARTAGENA - BOLIVAR',
   'MAGANGUE - BOLIVAR',
+  'TURBACO - BOLIVAR', // Nueva ciudad añadida
 
   // BOYACA
-  'TUNJA - BOYACA', // Ya estaba en la lista
+  'TUNJA - BOYACA',
   'DUITAMA - BOYACA',
+  'SOGAMOSO - BOYACA', // Nueva ciudad añadida
 
   // CALDAS
   'MANIZALES - CALDAS',
@@ -38,17 +42,18 @@ export const ciudadesNacimiento = [
   'AGUACHICA - CESAR',
 
   // CORDOBA
-  'MONTERIA - CORDOBA', // Nueva ciudad añadida
-  'LORICA - CORDOBA', // Nueva ciudad añadida
-  'SAHAGUN - CORDOBA', // Nueva ciudad añadida
+  'MONTERIA - CORDOBA',
+  'LORICA - CORDOBA',
+  'SAHAGUN - CORDOBA',
 
   // CUNDINAMARCA
   'BOGOTA D.C - CUNDINAMARCA',
   'BOGOTA D.C - ANTONIO NARIÑO',
   'CHIA - CUNDINAMARCA',
   'ZIPAQUIRA - CUNDINAMARCA',
-  'FACATATIVA - CUNDINAMARCA', // Nueva ciudad añadida
-  'SOACHA - CUNDINAMARCA', // Nueva ciudad añadida
+  'FACATATIVA - CUNDINAMARCA',
+  'SOACHA - CUNDINAMARCA',
+  'FUSAGASUGA - CUNDINAMARCA', // Nueva ciudad añadida
 
   // HUILA
   'NEIVA - HUILA',
@@ -65,29 +70,34 @@ export const ciudadesNacimiento = [
   // META
   'VILLAVICENCIO - META',
   'ACACIAS - META',
+  'GRANADA - META', // Nueva ciudad añadida
 
   // NARIÑO
   'PASTO - NARIÑO',
   'IPIALES - NARIÑO',
+  'TUMACO - NARIÑO', // Nueva ciudad añadida
 
   // NORTE DE SANTANDER
   'CUCUTA - NORTE DE SANTANDER',
   'OCAÑA - NORTE DE SANTANDER',
+  'PAMPLONA - NORTE DE SANTANDER', // Nueva ciudad añadida
 
   // QUINDIO
-  'ARMENIA - QUINDIO', // Nueva ciudad añadida
+  'ARMENIA - QUINDIO',
+  'CALARCA - QUINDIO', // Nueva ciudad añadida
 
   // RISARALDA
   'PEREIRA - RISARALDA',
   'DOSQUEBRADAS - RISARALDA',
+  'SANTA ROSA DE CABAL - RISARALDA', // Nueva ciudad añadida
 
   // SANTANDER
   'BUCARAMANGA - SANTANDER',
   'FLORIDABLANCA - SANTANDER',
   'GIRON - SANTANDER',
-  'BARRANCABERMEJA - SANTANDER', // Nueva ciudad añadida
-  'PIEDECUESTA - SANTANDER', // Nueva ciudad añadida
-  'MALAGA - SANTANDER', // Nueva ciudad añadida
+  'BARRANCABERMEJA - SANTANDER',
+  'PIEDECUESTA - SANTANDER',
+  'MALAGA - SANTANDER',
 
   // SUCRE
   'SINCELEJO - SUCRE',
@@ -96,12 +106,22 @@ export const ciudadesNacimiento = [
   // TOLIMA
   'IBAGUE - TOLIMA',
   'ESPINAL - TOLIMA',
+  'MELGAR - TOLIMA', // Nueva ciudad añadida
 
   // VALLE DEL CAUCA
   'CALI - VALLE DEL CAUCA',
   'CARTAGO - VALLE DEL CAUCA',
   'LA UNION - VALLE DEL CAUCA',
   'BUENAVENTURA - VALLE DEL CAUCA',
-  'PALMIRA - VALLE DEL CAUCA', // Nueva ciudad añadida
-  'TULUA - VALLE DEL CAUCA' // Nueva ciudad añadida
+  'PALMIRA - VALLE DEL CAUCA',
+  'TULUA - VALLE DEL CAUCA',
+  'YUMBO - VALLE DEL CAUCA', // Nueva ciudad añadida
+  
+  // NUEVOS DEPARTAMENTOS
+  'SAN JOSE DEL GUAVIARE - GUAVIARE', // Ciudad solicitada
+  'LETICIA - AMAZONAS', // Nueva ciudad añadida
+  'ARAUCA - ARAUCA', // Nueva ciudad añadida
+  'QUIBDO - CHOCO', // Nueva ciudad añadida
+  'RIOHACHA - LA GUAJIRA', // Nueva ciudad añadida
+  'MOCOA - PUTUMAYO' // Nueva ciudad añadida
 ];
