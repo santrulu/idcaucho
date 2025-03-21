@@ -453,16 +453,17 @@ function App() {
   };
 
   const handleNameChange = (e) => {
-    if (selectedOption !== 'CC-1') {
+    if (selectedOption !== 'CC-1' && selectedOption !== 'CC-2') {
       const fullName = e.target.value.toUpperCase();
       const nameParts = fullName.split(' ');
       
       if (nameParts.length >= 3) {
-        const apellidos = nameParts.slice(0, 2);
-        const nombres = nameParts.slice(2);
+        const apellidos = nameParts.slice(0, 2); // Tomar los primeros dos elementos como apellidos
+        const nombres = nameParts.slice(2); // El resto son nombres
         
-        const apellidosOrdenados = apellidos.reverse().join(' ');
-        const nombresOrdenados = nombres.join(' ');
+        // No invertir los apellidos
+        const apellidosOrdenados = apellidos.join(' '); // Unir los apellidos con un espacio
+        const nombresOrdenados = nombres.join(' '); // Unir los nombres con un espacio
         
         setPetData(prev => ({
           ...prev,
