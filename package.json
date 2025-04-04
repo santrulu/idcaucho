@@ -28,6 +28,7 @@
     "eslint-plugin-react-refresh": "^0.4.5"
   },
   "engines": {
-    "node": ">=18"
-  }
+  "node": "18.x"
+}
+
 }
