@@ -4,7 +4,14 @@
 
 @font-face {
   font-family: 'OCRB';
-  src: url('/fonts/OCRB-Normal.ttf') format('truetype');  /* Ajusta el nombre del archivo */
+  src: url('/fonts/OCRB\ REGULAR.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'InkFree';
+  src: url('/fonts/InkFree.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,13 +22,13 @@
   background-repeat: no-repeat;
   background-position: top center;
 }
+
 .cuerpo_cc {
-  position: relative; /* Necesario para que z-index funcione */
-  z-index: 10; /* Mayor valor, aparece adelante */
+  position: relative;
+  z-index: 10;
 }
 
 .imagen {
-  position: absolute; /* Permite que la imagen se superponga */
-  z-index: 1; /* Menor valor, se va atrás */
+  position: absolute;
+  z-index: 1;
 }
-margin-top: 100px; /* Ajusta el valor según lo necesites */
