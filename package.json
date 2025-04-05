@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "npx vite build",
-    "dev": "npx vite",
-    "preview": "npx vite preview",
+    "build": "vite build",
+    "dev": "vite",
+    "preview": "vite preview",
     "postinstall": ""
   },
   "dependencies": {
@@ -26,7 +26,7 @@
     "eslint-plugin-react-refresh": "^0.4.5",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17",
-    "vite": "^6.2.5"
+    "vite": "^5.1.4"
   },
   "engines": {
     "node": "20.x"
