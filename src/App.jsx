@@ -61,10 +61,14 @@ const styles = {
     overflow: 'hidden'
   },
   cc1Container: {
-    width: '792px', // Ancho específico para la opción 4 (ajusta según el tamaño de fondo_papel)
-    height: '1070px', // Alto específico para la opción 4 (ajusta según el tamaño de fondo_papel)
+    width: '792px',
+    height: '1070px',
     position: 'relative',
     overflow: 'hidden',
+    display: 'inline-block',
+    transform: 'translateZ(0)',
+    backgroundColor: '#ffffff',
+    boxSizing: 'border-box' // Añade esto
   },
   // Replace the photoCC1 style with this updated version:
   photoCC1: {
@@ -363,7 +367,11 @@ photoCC1BlackWhite: {
       fontWeight: 'normal',
       fontSize: '20px',
       color: 'black',
-      zIndex: 6
+      zIndex: 6,
+      margin: '0 !important',       // Añade esto
+    padding: '0 !important',     // Añade esto
+    lineHeight: '1 !important',  // Añade esto
+    boxSizing: 'border-box'
     }
   }
 };
@@ -672,60 +680,111 @@ function App() {
   const handleDownload = async () => {
     if (idCardRef.current) {
       try {
-        const canvas = await html2canvas(idCardRef.current, {
+        // 1. Configurar el contenedor
+        const container = idCardRef.current;
+        
+        // Guardar estilos originales para restaurar después
+        const originalStyles = {
+          width: container.style.width,
+          height: container.style.height,
+          position: container.style.position,
+          transform: container.style.transform
+        };
+  
+        // 2. Forzar estilos temporalmente para la captura
+        container.style.width = '792px';
+        container.style.height = '1070px';
+        container.style.position = 'absolute';
+        container.style.top = '0';
+        container.style.left = '0';
+        container.style.transform = 'none';
+  
+        // 3. Esperar breve para asegurar renderizado
+        await new Promise(resolve => setTimeout(resolve, 100));
+  
+        // 4. Configuración de dimensiones
+        const width = selectedOption === 'CC-1' || selectedOption === 'CC-2' ? 792 : 892;
+        const height = selectedOption === 'CC-1' || selectedOption === 'CC-2' ? 1070 : 1770;
+  
+        // 5. Crear el canvas con configuración precisa
+        const canvas = await html2canvas(container, {
           scale: 2,
           useCORS: true,
           allowTaint: true,
           logging: true,
           backgroundColor: '#ffffff',
-          width: selectedOption === 'CC-1' || selectedOption === 'CC-2' ? 792 : 892, // Ajusta el ancho para las opciones 4 y 5
-          height: selectedOption === 'CC-1' || selectedOption === 'CC-2' ? 1070 : 1770, // Ajusta el alto para las opciones 4 y 5
+          width: width,
+          height: height,
+          windowWidth: width * 2,
+          windowHeight: height * 2,
+          scrollX: 0,
+          scrollY: 0,
+          ignoreElements: (element) => element.style.display === 'none',
+          onclone: (clonedDoc) => {
+            const clonedContainer = clonedDoc.getElementById('pdf-container');
+            if (clonedContainer) {
+              clonedContainer.style.width = `${width}px`;
+              clonedContainer.style.height = `${height}px`;
+              clonedContainer.style.position = 'absolute';
+              clonedContainer.style.top = '0';
+              clonedContainer.style.left = '0';
+              clonedContainer.style.transform = 'none';
+            }
+          }
         });
   
-        const aspectRatio = canvas.height / canvas.width;
-        const pdfWidth = 210;
-        const pdfHeight = pdfWidth * aspectRatio;
+        // 6. Restaurar estilos originales
+        container.style.width = originalStyles.width;
+        container.style.height = originalStyles.height;
+        container.style.position = originalStyles.position;
+        container.style.transform = originalStyles.transform;
+        container.style.top = '';
+        container.style.left = '';
   
+        // 7. Crear PDF con las dimensiones correctas
         const pdf = new jsPDF({
-          orientation: pdfHeight > pdfWidth ? 'portrait' : 'landscape',
-          unit: 'mm',
-          format: [pdfWidth, pdfHeight]
+          orientation: width > height ? 'landscape' : 'portrait',
+          unit: 'px',
+          format: [width, height]
         });
   
+        // 8. Añadir imagen al PDF
         pdf.addImage(
           canvas.toDataURL('image/jpeg', 1.0),
           'JPEG',
           0,
           0,
-          pdfWidth,
-          pdfHeight
+          width,
+          height,
+          undefined,
+          'FAST'
         );
   
+        // 9. Generar nombre de archivo
         let fileName;
-
-      // Lógica para las opciones 4 y 5 (CC-1 y CC-2)
-      if (selectedOption === 'CC-1' || selectedOption === 'CC-2') {
-        fileName = petData.numeroId; // Usar el número de ID como nombre del archivo
-      } else {
-        const cleanId = petData.id.replace(/\./g, '');
-        switch (cleanId) {
-          case '1025533107':
-            fileName = 'Comprobante de documento en trámite 1025533107';
-            break;
-          case '1011323064':
-            fileName = 'Comprobante de documento en trámite 1011323064';
-            break;
-          case '1141515448':
-            fileName = 'Comprobante de documento en trámite 1141515448';
-            break;
-          default:
-            fileName = 'documento';
+        if (selectedOption === 'CC-1' || selectedOption === 'CC-2') {
+          fileName = petData.numeroId || 'documento';
+        } else {
+          const cleanId = petData.id.replace(/\./g, '');
+          fileName = `Comprobante_${cleanId}`;
         }
-      }
   
+        // 10. Guardar PDF
         pdf.save(`${fileName}.pdf`);
+  
       } catch (error) {
         console.error('Error al generar PDF:', error);
+        alert('Error al generar PDF. Ver consola para detalles.');
+        
+        // Restaurar estilos en caso de error
+        if (idCardRef.current) {
+          idCardRef.current.style.width = '';
+          idCardRef.current.style.height = '';
+          idCardRef.current.style.position = '';
+          idCardRef.current.style.transform = '';
+          idCardRef.current.style.top = '';
+          idCardRef.current.style.left = '';
+        }
       }
     }
   };
@@ -1414,9 +1473,9 @@ function App() {
         </div>
       </div>
 
-      <div ref={idCardRef}>
-        {renderCardContent()}
-      </div>
+      <div ref={idCardRef} id="pdf-container">
+  {renderCardContent()}
+</div>
     </div>
   );
 }
