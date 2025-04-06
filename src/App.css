@@ -4,7 +4,7 @@
 
 @font-face {
   font-family: 'OCRB';
-  src: url('/fonts/OCRB\ REGULAR.TTF') format('truetype');
+  src: url('/fonts/OCRB REGULAR.TTF') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -12,8 +12,7 @@
 @font-face {
   font-family: 'InkFree';
   src: url('/fonts/InkFree.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+  font-display: swap;
 }
 
 .id-card {
@@ -21,14 +20,52 @@
   background-size: contain;
   background-repeat: no-repeat;
   background-position: top center;
+  width: 210mm;
+  min-height: 297mm;
+  margin: 20px auto;
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .cuerpo_cc {
-  position: relative;
+  position: absolute;
+  top: 35mm;
+  left: 20mm;
+  right: 20mm;
+  bottom: 20mm;
   z-index: 10;
 }
 
 .imagen {
   position: absolute;
   z-index: 1;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .id-card {
+    width: 210mm !important;
+    height: 297mm !important;
+    page-break-after: always;
+  }
+  
+  body * {
+    visibility: hidden;
+  }
+  
+  .id-card, .id-card * {
+    visibility: visible;
+  }
 }
