@@ -673,32 +673,30 @@ function App() {
     if (idCardRef.current) {
       try {
         const canvas = await html2canvas(idCardRef.current, {
-          scale: 2,
+          scale: 3,
           useCORS: true,
-          allowTaint: true,
+          width: 794, // Ancho fijo en píxeles
+          height: 1123, // Alto fijo en píxeles
           logging: true,
-          backgroundColor: '#ffffff',
-          width: selectedOption === 'CC-1' || selectedOption === 'CC-2' ? 792 : 892, // Ajusta el ancho para las opciones 4 y 5
-          height: selectedOption === 'CC-1' || selectedOption === 'CC-2' ? 1070 : 1770, // Ajusta el alto para las opciones 4 y 5
         });
   
         const aspectRatio = canvas.height / canvas.width;
-        const pdfWidth = 210;
-        const pdfHeight = pdfWidth * aspectRatio;
+        const pdfWidth = 794;
+        const pdfHeight = 1123;
   
         const pdf = new jsPDF({
-          orientation: pdfHeight > pdfWidth ? 'portrait' : 'landscape',
-          unit: 'mm',
-          format: [pdfWidth, pdfHeight]
+          orientation: "portrait",
+          unit: "px", // Usar píxeles
+          format: [794, 1123], // Tamaño A4 en píxeles
         });
   
         pdf.addImage(
-          canvas.toDataURL('image/jpeg', 1.0),
-          'JPEG',
-          0,
-          0,
-          pdfWidth,
-          pdfHeight
+          canvas.toDataURL('image/png'),
+          'PNG',
+          0, // Posición X
+          0, // Posición Y
+          794, // Ancho imagen
+          1123 // Alto imagen
         );
   
         let fileName;
