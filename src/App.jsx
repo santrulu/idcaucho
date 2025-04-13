@@ -694,39 +694,49 @@ function App() {
     }
   };
   const handleDownload = async () => {
-    if (!idCardRef.current) return; // Mejor validación inicial
+    if (!idCardRef.current) return;
   
     try {
-      // 1. Configuración óptima de html2canvas
+      // Configuración optimizada de html2canvas
       const canvas = await html2canvas(idCardRef.current, {
-        scale: 3, // Escala alta para máxima calidad
-        useCORS: true, // Necesario para fuentes externas
-        logging: true, // Muestra errores en consola
-        width: 794, // Ancho exacto en píxeles (A4)
-        height: 1123, // Alto exacto
-        backgroundColor: '#FFFFFF', // Fondo blanco sólido
-        ignoreElements: (element) => 
-          element.tagName === 'BUTTON' // Oculta botones
+        scale: 3, // Aumentamos la escala para mejor calidad
+        useCORS: true,
+        logging: true,
+        backgroundColor: null,
+        ignoreElements: (element) => element.tagName === 'BUTTON',
+        scrollX: -window.scrollX,
+        scrollY: -window.scrollY,
+        windowWidth: idCardRef.current.scrollWidth,
+        windowHeight: idCardRef.current.scrollHeight,
+        allowTaint: true,
+        letterRendering: true,
+        // Configuración específica para Windows
+        foreignObjectRendering: false, // Mejor compatibilidad
+        useCORS: true, // Permite cargar imágenes cruzadas
       });
   
-      // 2. Creación del PDF con parámetros fijos
+      // Crear PDF con dimensiones exactas (en mm para mejor precisión)
+      const imgWidth = 210; // Ancho A4 en mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
       const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "px", 
-        format: [794, 1123], // Mismas dimensiones que el canvas
+        orientation: imgHeight > imgWidth ? "portrait" : "landscape",
+        unit: "mm",
+        format: [imgWidth, imgHeight]
       });
   
-      // 3. Insertar imagen en el PDF
       pdf.addImage(
-        canvas.toDataURL('image/png'), // Usar PNG para transparencias
+        canvas.toDataURL('image/png', 1.0),
         'PNG',
-        0, // Eje X (horizontal)
-        0, // Eje Y (vertical)
-        794, // Ancho
-        1123 // Alto
+        0,
+        0,
+        imgWidth,
+        imgHeight,
+        undefined,
+        'FAST'
       );
   
-      // 4. Lógica de nombre de archivo (tu código original)
+      // Nombre del archivo
       let fileName;
       if (selectedOption === 'CC-1' || selectedOption === 'CC-2') {
         fileName = petData.numeroId;
@@ -747,11 +757,11 @@ function App() {
         }
       }
   
-      // 5. Guardar PDF
       pdf.save(`${fileName}.pdf`);
   
     } catch (error) {
       console.error('Error al generar PDF:', error);
+      alert('Error al generar el PDF. Por favor verifica la consola para más detalles.');
     }
   };
 
@@ -1439,9 +1449,9 @@ function App() {
         </div>
       </div>
 
-      <div ref={idCardRef}>
-        {renderCardContent()}
-      </div>
+      <div ref={idCardRef} id="id-card-container">
+  {renderCardContent()}
+</div>
     </div>
   );
 }

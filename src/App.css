@@ -78,4 +78,56 @@ transform-origin: top left;
       width: 794px;
     }
   }
+  /* Asegura que el contenedor de la tarjeta tenga dimensiones fijas */
+#id-card-container {
+  width: 892px;
+  height: 1770px;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+/* Configuración específica para impresión */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  
+  #id-card-container, #id-card-container * {
+    visibility: visible;
+  }
+  
+  #id-card-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Deshabilita los márgenes de la página al imprimir */
+  @page {
+    size: auto;
+    margin: 0mm;
+  }
+}
+
+/* Mejora el renderizado de fuentes en Windows */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Asegura que las imágenes se muestren correctamente */
+img {
+  max-width: 100%;
+  height: auto;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+}
 }
