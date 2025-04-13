@@ -340,7 +340,7 @@ photoCC1BlackWhite: {
     },
     firmaText: {
       position: 'absolute',
-      fontFamily: '"Ink Free", "Segoe Script", "Comic Sans MS", cursive',
+      fontFamily: '"Ink free", "Segoe Script", "Comic Sans MS", cursive',
       fontWeight: '400',
       fontStyle: 'normal',
       fontSize: '39px',
@@ -474,7 +474,31 @@ function App() {
       }
     }
   };
-
+  function TuComponente({ selectedOption, petData }) {
+    const idCardRef = useRef(null);
+  
+    // Aquí va la función handleDownload anterior
+  
+    return (
+      <div>
+        {/* Contenedor de la tarjeta */}
+        <div 
+          ref={idCardRef} 
+          className="id-card"
+        >
+          {/* ... Tu contenido ... */}
+        </div>
+  
+        {/* Botón de descarga */}
+        <button 
+          onClick={handleDownload}
+          className="descargar-pdf" 
+        >
+          Descargar PDF
+        </button>
+      </div>
+    );
+  }
   // Handlers para apellidos y nombres en la opción 4
   const handleApellidosChange = (e) => {
     setPetData({ ...petData, apellidos: e.target.value.toUpperCase() });
@@ -670,40 +694,42 @@ function App() {
     }
   };
   const handleDownload = async () => {
-    if (idCardRef.current) {
-      try {
-        const canvas = await html2canvas(idCardRef.current, {
-          scale: 3,
-          useCORS: true,
-          width: 794, // Ancho fijo en píxeles
-          height: 1123, // Alto fijo en píxeles
-          logging: true,
-        });
+    if (!idCardRef.current) return; // Mejor validación inicial
   
-        const aspectRatio = canvas.height / canvas.width;
-        const pdfWidth = 794;
-        const pdfHeight = 1123;
+    try {
+      // 1. Configuración óptima de html2canvas
+      const canvas = await html2canvas(idCardRef.current, {
+        scale: 3, // Escala alta para máxima calidad
+        useCORS: true, // Necesario para fuentes externas
+        logging: true, // Muestra errores en consola
+        width: 794, // Ancho exacto en píxeles (A4)
+        height: 1123, // Alto exacto
+        backgroundColor: '#FFFFFF', // Fondo blanco sólido
+        ignoreElements: (element) => 
+          element.tagName === 'BUTTON' // Oculta botones
+      });
   
-        const pdf = new jsPDF({
-          orientation: "portrait",
-          unit: "px", // Usar píxeles
-          format: [794, 1123], // Tamaño A4 en píxeles
-        });
+      // 2. Creación del PDF con parámetros fijos
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "px", 
+        format: [794, 1123], // Mismas dimensiones que el canvas
+      });
   
-        pdf.addImage(
-          canvas.toDataURL('image/png'),
-          'PNG',
-          0, // Posición X
-          0, // Posición Y
-          794, // Ancho imagen
-          1123 // Alto imagen
-        );
+      // 3. Insertar imagen en el PDF
+      pdf.addImage(
+        canvas.toDataURL('image/png'), // Usar PNG para transparencias
+        'PNG',
+        0, // Eje X (horizontal)
+        0, // Eje Y (vertical)
+        794, // Ancho
+        1123 // Alto
+      );
   
-        let fileName;
-
-      // Lógica para las opciones 4 y 5 (CC-1 y CC-2)
+      // 4. Lógica de nombre de archivo (tu código original)
+      let fileName;
       if (selectedOption === 'CC-1' || selectedOption === 'CC-2') {
-        fileName = petData.numeroId; // Usar el número de ID como nombre del archivo
+        fileName = petData.numeroId;
       } else {
         const cleanId = petData.id.replace(/\./g, '');
         switch (cleanId) {
@@ -721,10 +747,11 @@ function App() {
         }
       }
   
-        pdf.save(`${fileName}.pdf`);
-      } catch (error) {
-        console.error('Error al generar PDF:', error);
-      }
+      // 5. Guardar PDF
+      pdf.save(`${fileName}.pdf`);
+  
+    } catch (error) {
+      console.error('Error al generar PDF:', error);
     }
   };
 
@@ -820,7 +847,7 @@ function App() {
               top: '418px',
               left: '22%',
               transform: 'translateX(-50%)',
-              fontFamily: '"Ink Free", "Segoe Script", "Comic Sans MS", cursive',
+              fontFamily: '"Ink free", "Segoe Script", "Comic Sans MS", cursive',
               fontWeight: '400',
               fontSize: '32px'
             }}>
@@ -1001,7 +1028,7 @@ function App() {
           top: '418px',
           left: '22%',
           transform: 'translateX(-50%)',
-          fontFamily: '"Ink Free", "Segoe Script", "Comic Sans MS", cursive',
+          fontFamily: '"Ink free", "Segoe Script", "Comic Sans MS", cursive',
           fontWeight: '400',
           fontSize: '32px'
         }}>
