@@ -699,7 +699,7 @@ function App() {
     try {
       // Configuración optimizada de html2canvas
       const canvas = await html2canvas(idCardRef.current, {
-        scale: 3, // Aumentamos la escala para mejor calidad
+        scale: 4, // Aumentamos la escala para mejor calidad
         useCORS: true,
         logging: true,
         backgroundColor: null,
@@ -721,7 +721,7 @@ function App() {
       
       const pdf = new jsPDF({
         orientation: imgHeight > imgWidth ? "portrait" : "landscape",
-        unit: "mm",
+        unit: "px",
         format: [imgWidth, imgHeight]
       });
   
