@@ -759,7 +759,7 @@ function App() {
   />
 )}
           
-          {/* Foto en blanco y negro con 30% de opacidad */}
+          {/* Foto en blanco y negro con 30% de opacidadd */}
           {petData.blackWhitePhoto && (
   <img 
     src={petData.blackWhitePhoto}
