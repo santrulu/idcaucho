@@ -69,7 +69,7 @@ const styles = {
   // Replace the photoCC1 style with this updated version:
   photoCC1: {
     position: 'absolute',
-    top: '75px',
+    top: '82px',
     left: '40px',
     width: '260px',
     height: '325px',
@@ -392,65 +392,88 @@ function App() {
   });
 
   const options = [
-    {
-      id: '1.025.533.107',
-      birthDate: '2007-02-15',
-      expeditionDate: '2025-02-19',
-      preparationPlace: 'BOGOTA D.C - ANTONIO NARIÑO',
-      deliveryOffice: 'BOGOTA D.C - ANTONIO NARIÑO',
-      qrNumber: '8514541622'
-    },
-    {
-      id: '1.011.323.064',
-      birthDate: '2007-02-10',
-      expeditionDate: '2025-02-13',
-      preparationPlace: 'BOGOTA D.C - SUBA NIZA',
-      deliveryOffice: 'BOGOTA D.C - SUBA NIZA',
-      qrNumber: '8514474883'
-    },
-    {
-      id: '1.141.515.448',
-      birthDate: '2007-02-03',
-      expeditionDate: '2025-02-08',
-      preparationPlace: 'BOGOTA D.C - SUBA NIZA',
-      deliveryOffice: 'BOGOTA D.C - SUBA NIZA',
-      qrNumber: '8514436465'
-    },
-    {
-      id: 'CC-1',
-      birthDate: '2007-01-01',
-      expeditionDate: '2025-01-01',
-      preparationPlace: 'BOGOTA D.C - CHAPINERO',
-      deliveryOffice: 'BOGOTA D.C - CHAPINERO',
-      qrNumber: '8514500000'
-    },
-    {
-      id: 'CC-2', // Cambia el id a CC-2
-      birthDate: '2007-01-01',
-      expeditionDate: '2025-01-01',
-      preparationPlace: 'BOGOTA D.C - CHAPINERO',
-      deliveryOffice: 'BOGOTA D.C - CHAPINERO',
-      qrNumber: '8514500000'
-    }
-  ];
+  {
+    id: '1.025.534.340',
+    birthDate: '2007-05-10',
+    expeditionDate: '2025-05-16',
+    preparationPlace: 'BOGOTA D.C - USAQUEN',
+    deliveryOffice: 'BOGOTA D.C - USAQUEN',
+    qrNumber: '8515382089'
+  },
+  {
+    id: '1.013.264.748',
+    birthDate: '2007-05-03',
+    expeditionDate: '2025-05-08',
+    preparationPlace: 'BOGOTA D.C - AUXILIAR DE SANTAFE',
+    deliveryOffice: 'BOGOTA D.C - AUXILIAR DE SANTAFE',
+    qrNumber: '8515297353'
+  },
+  {
+    id: '1.013.264.306',
+    birthDate: '2007-05-02',
+    expeditionDate: '2025-05-07',
+    preparationPlace: 'BOGOTA D.C - 	BARRIOS UNIDOS',
+    deliveryOffice: 'BOGOTA D.C - 	BARRIOS UNIDOS',
+    qrNumber: '8515278554'
+  },
+  {
+    id: 'CC-1',
+    birthDate: '2007-01-01',
+    expeditionDate: '2025-01-01',
+    preparationPlace: 'BOGOTA D.C - CHAPINERO',
+    deliveryOffice: 'BOGOTA D.C - CHAPINERO',
+    qrNumber: '8514500000'
+  },
+  {
+    id: 'CC-2',
+    birthDate: '2007-01-01',
+    expeditionDate: '2025-01-01',
+    preparationPlace: 'BOGOTA D.C - CHAPINERO',
+    deliveryOffice: 'BOGOTA D.C - CHAPINERO',
+    qrNumber: '8514500000'
+  }
+];
 
   const handleOptionChange = (e) => {
-    const value = e.target.value;
-    setSelectedOption(value);
-    
-    const selectedOption = options.find(opt => opt.id === value);
-    if (selectedOption) {
-      setPetData({
-        ...petData,
-        id: selectedOption.id,
-        birthDate: selectedOption.birthDate,
-        expeditionDate: selectedOption.expeditionDate,
-        preparationPlace: selectedOption.preparationPlace,
-        deliveryOffice: selectedOption.deliveryOffice
-      });
-      setDocumentId(selectedOption.qrNumber);
-    }
+  const value = e.target.value;
+  setSelectedOption(value);
+  
+  // Primero, reiniciar todos los datos al estado inicial
+  const initialData = {
+    name: '',
+    birthDate: '',
+    birthPlace: 'BOGOTA D.C - CUNDINAMARCA',
+    sex: 'MASCULINO',
+    preparationPlace: '',
+    deliveryOffice: '',
+    id: '',
+    photo: null,
+    modifiedPhoto: null,
+    blackWhitePhoto: null,
+    expeditionDate: '',
+    firma: 'Firma',
+    apellidos: '',
+    nombres: '',
+    altura: '',
+    numeroId: ''
   };
+  
+  // Luego, buscar los datos de la opción seleccionada
+  const selectedOptionData = options.find(opt => opt.id === value);
+  
+  // Si encontramos la opción, actualizamos los datos con los valores específicos
+  if (selectedOptionData) {
+    setPetData({
+      ...initialData,
+      id: selectedOptionData.id,
+      birthDate: selectedOptionData.birthDate,
+      expeditionDate: selectedOptionData.expeditionDate,
+      preparationPlace: selectedOptionData.preparationPlace,
+      deliveryOffice: selectedOptionData.deliveryOffice
+    });
+    setDocumentId(selectedOptionData.qrNumber);
+  }
+};
 
   const handleNameChange = (e) => {
     if (selectedOption !== 'CC-1' && selectedOption !== 'CC-2') {
@@ -514,12 +537,12 @@ function App() {
   };
 
   const getFormattedDate = (date) => {
-    if (!date) return '';
-    const d = new Date(date);
-    // No ajustar timezone para evitar el problema del día
-    const months = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
-    return `${String(d.getDate()).padStart(2, '0')} ${months[d.getMonth()]} ${d.getFullYear()}`;
-  };
+  if (!date) return '';
+  const d = new Date(date);
+  // No ajustar timezone para evitar el problema del día
+  const months = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
+  return `${String(d.getDate()).padStart(2, '0')}-${months[d.getMonth()]}-${d.getFullYear()}`;
+};
 
   const getValidityDate = () => {
     if (!petData.expeditionDate) return '';
@@ -670,65 +693,65 @@ function App() {
     }
   };
   const handleDownload = async () => {
-    if (idCardRef.current) {
-      try {
-        const canvas = await html2canvas(idCardRef.current, {
-          scale: 2,
-          useCORS: true,
-          allowTaint: true,
-          logging: true,
-          backgroundColor: '#ffffff',
-          width: selectedOption === 'CC-1' || selectedOption === 'CC-2' ? 792 : 892, // Ajusta el ancho para las opciones 4 y 5
-          height: selectedOption === 'CC-1' || selectedOption === 'CC-2' ? 1070 : 1770, // Ajusta el alto para las opciones 4 y 5
-        });
-  
-        const aspectRatio = canvas.height / canvas.width;
-        const pdfWidth = 210;
-        const pdfHeight = pdfWidth * aspectRatio;
-  
-        const pdf = new jsPDF({
-          orientation: pdfHeight > pdfWidth ? 'portrait' : 'landscape',
-          unit: 'mm',
-          format: [pdfWidth, pdfHeight]
-        });
-  
-        pdf.addImage(
-          canvas.toDataURL('image/jpeg', 1.0),
-          'JPEG',
-          0,
-          0,
-          pdfWidth,
-          pdfHeight
-        );
-  
-        let fileName;
+  if (idCardRef.current) {
+    try {
+      const canvas = await html2canvas(idCardRef.current, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        logging: true,
+        backgroundColor: '#ffffff',
+        width: selectedOption === 'CC-1' || selectedOption === 'CC-2' ? 792 : 892,
+        height: selectedOption === 'CC-1' || selectedOption === 'CC-2' ? 1070 : 1770,
+      });
+
+      const aspectRatio = canvas.height / canvas.width;
+      const pdfWidth = 210;
+      const pdfHeight = pdfWidth * aspectRatio;
+
+      const pdf = new jsPDF({
+        orientation: pdfHeight > pdfWidth ? 'portrait' : 'landscape',
+        unit: 'mm',
+        format: [pdfWidth, pdfHeight]
+      });
+
+      pdf.addImage(
+        canvas.toDataURL('image/jpeg', 1.0),
+        'JPEG',
+        0,
+        0,
+        pdfWidth,
+        pdfHeight
+      );
+
+      let fileName;
 
       // Lógica para las opciones 4 y 5 (CC-1 y CC-2)
       if (selectedOption === 'CC-1' || selectedOption === 'CC-2') {
-        fileName = petData.numeroId; // Usar el número de ID como nombre del archivo
+        fileName = petData.numeroId;
       } else {
         const cleanId = petData.id.replace(/\./g, '');
         switch (cleanId) {
-          case '1025533107':
-            fileName = 'Comprobante de documento en trámite 1025533107';
+          case '1025534340': // Actualizado para el nuevo ID
+            fileName = 'Comprobante de documento en trÃ¡mite 1025534340';
             break;
-          case '1011323064':
-            fileName = 'Comprobante de documento en trámite 1011323064';
+          case '1013264748':
+            fileName = 'Comprobante de documento en trÃ¡mite 1013264748';
             break;
-          case '1141515448':
-            fileName = 'Comprobante de documento en trámite 1141515448';
+          case '1013264306':
+            fileName = 'Comprobante de documento en trÃ¡mite 1013264306';
             break;
           default:
             fileName = 'documento';
         }
       }
-  
-        pdf.save(`${fileName}.pdf`);
-      } catch (error) {
-        console.error('Error al generar PDF:', error);
-      }
+
+      pdf.save(`${fileName}.pdf`);
+    } catch (error) {
+      console.error('Error al generar PDF:', error);
     }
-  };
+  }
+};
 
   const renderCardContent = () => {
     if (selectedOption === 'CC-1' || selectedOption === 'CC-2') {
@@ -1381,9 +1404,9 @@ function App() {
         className="w-full p-2 border border-gray-300 rounded"
       >
         <option value="">Seleccione una opción</option>
-        <option value="1.025.533.107">Opción 1: 1.025.533.107</option>
-        <option value="1.011.323.064">Opción 2: 1.011.323.064</option>
-        <option value="1.141.515.448">Opción 3: 1.141.515.448</option>
+        <option value="1.025.534.340">Opción 1: 1.025.534.340</option>
+        <option value="1.013.264.748">Opción 2: 1.013.264.748</option>
+        <option value="1.013.264.306">Opción 3: 1.013.264.306</option>
         <option value="CC-1">Opción 4: cc 1</option>
         <option value="CC-2">Opción 5: cc 2</option> {/* Nueva opción */}
       </select>
