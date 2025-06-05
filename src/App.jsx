@@ -732,13 +732,13 @@ function App() {
       } else {
         const cleanId = petData.id.replace(/\./g, '');
         switch (cleanId) {
-          case '1025534340': // Actualizado para el nuevo ID
+          case '1019903208': // Actualizado para el nuevo ID
             fileName = 'Comprobante de documento en trÃ¡mite 1019903208';
             break;
-          case '1013264748':
+          case '1023303466':
             fileName = 'Comprobante de documento en trÃ¡mite 1023303466';
             break;
-          case '1013264306':
+          case '1025534340':
             fileName = 'Comprobante de documento en trÃ¡mite 1025534340';
             break;
           default:
