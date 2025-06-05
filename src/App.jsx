@@ -393,28 +393,28 @@ function App() {
 
   const options = [
   {
+    id: '1.019.903.208',
+    birthDate: '2007-05-26',
+    expeditionDate: '2025-05-29',
+    preparationPlace: 'BOGOTA D.C - SUBA NIZA',
+    deliveryOffice: 'BOGOTA D.C - SUBA NIZA',
+    qrNumber: '8515509619'
+  },
+  {
+    id: '1.023.303.466',
+    birthDate: '2007-05-23',
+    expeditionDate: '2025-05-28',
+    preparationPlace: 'BOGOTA D.C - BARRIOS UNIDOS',
+    deliveryOffice: 'BOGOTA D.C - BARRIOS UNIDOS',
+    qrNumber: '8515496007'
+  },
+  {
     id: '1.025.534.340',
     birthDate: '2007-05-10',
     expeditionDate: '2025-05-16',
-    preparationPlace: 'BOGOTA D.C - USAQUEN',
-    deliveryOffice: 'BOGOTA D.C - USAQUEN',
+    preparationPlace: 'BOGOTA D.C - 	USAQUEN',
+    deliveryOffice: 'BOGOTA D.C - 	USAQUEN',
     qrNumber: '8515382089'
-  },
-  {
-    id: '1.013.264.748',
-    birthDate: '2007-05-03',
-    expeditionDate: '2025-05-08',
-    preparationPlace: 'BOGOTA D.C - AUXILIAR DE SANTAFE',
-    deliveryOffice: 'BOGOTA D.C - AUXILIAR DE SANTAFE',
-    qrNumber: '8515297353'
-  },
-  {
-    id: '1.013.264.306',
-    birthDate: '2007-05-02',
-    expeditionDate: '2025-05-07',
-    preparationPlace: 'BOGOTA D.C - 	BARRIOS UNIDOS',
-    deliveryOffice: 'BOGOTA D.C - 	BARRIOS UNIDOS',
-    qrNumber: '8515278554'
   },
   {
     id: 'CC-1',
@@ -733,13 +733,13 @@ function App() {
         const cleanId = petData.id.replace(/\./g, '');
         switch (cleanId) {
           case '1025534340': // Actualizado para el nuevo ID
-            fileName = 'Comprobante de documento en trÃ¡mite 1025534340';
+            fileName = 'Comprobante de documento en trÃ¡mite 1019903208';
             break;
           case '1013264748':
-            fileName = 'Comprobante de documento en trÃ¡mite 1013264748';
+            fileName = 'Comprobante de documento en trÃ¡mite 1023303466';
             break;
           case '1013264306':
-            fileName = 'Comprobante de documento en trÃ¡mite 1013264306';
+            fileName = 'Comprobante de documento en trÃ¡mite 1025534340';
             break;
           default:
             fileName = 'documento';
@@ -1404,9 +1404,9 @@ function App() {
         className="w-full p-2 border border-gray-300 rounded"
       >
         <option value="">Seleccione una opción</option>
-        <option value="1.025.534.340">Opción 1: 1.025.534.340</option>
-        <option value="1.013.264.748">Opción 2: 1.013.264.748</option>
-        <option value="1.013.264.306">Opción 3: 1.013.264.306</option>
+        <option value="1.019.903.208">Opción 1: 1.019.903.208</option>
+        <option value="1.023.303.466">Opción 2: 1.023.303.466</option>
+        <option value="1.025.534.340">Opción 3: 1.025.534.340</option>
         <option value="CC-1">Opción 4: cc 1</option>
         <option value="CC-2">Opción 5: cc 2</option> {/* Nueva opción */}
       </select>
