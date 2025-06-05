@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { ciudadesNacimiento } from '../ciudades.js';
+import { removeBackground } from '@imgly/background-removal';
 // Añade esta función aquí
 const applyImageEffects = (imageUrl, effectType, callback) => {
   const img = new Image();
@@ -666,30 +667,30 @@ function App() {
     
     return `${dia} ${mes} ${año}`;
   };
-  const handlePhotoChange = (e) => {
+  const handlePhotoChange = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const imageUrl = reader.result;
-  
-        // Aplicar efecto de contraste a la foto principal
-        applyImageEffects(imageUrl, 'contrast', (contrastImageUrl) => {
-          // Aplicar efecto de blanco y negro y opacidad a la segunda foto
-          applyImageEffects(imageUrl, 'blackWhiteOpacity', (blackWhiteOpacityImageUrl) => {
-            // Aplicar efecto de blanco y negro y opacidad a la tercera foto
-            applyImageEffects(imageUrl, 'blackWhiteOpacity', (blackWhiteOpacityImageUrl2) => {
-              setPetData(prev => ({
-                ...prev,
-                photo: contrastImageUrl, // Foto principal con contraste
-                modifiedPhoto: blackWhiteOpacityImageUrl, // Foto con blanco y negro y opacidad
-                blackWhitePhoto: blackWhiteOpacityImageUrl2 // Otra foto con blanco y negro y opacidad
-              }));
-            });
+    if (!file) return;
+
+    try {
+      // Remove the background using @imgly/background-removal
+      const blob = await removeBackground(file);
+      const imageUrl = URL.createObjectURL(blob);
+
+      // Apply effects to the background-free image
+      applyImageEffects(imageUrl, 'contrast', (contrastImageUrl) => {
+        applyImageEffects(imageUrl, 'blackWhiteOpacity', (blackWhiteOpacityImageUrl) => {
+          applyImageEffects(imageUrl, 'blackWhiteOpacity', (blackWhiteOpacityImageUrl2) => {
+            setPetData(prev => ({
+              ...prev,
+              photo: contrastImageUrl, // Foto principal con contraste
+              modifiedPhoto: blackWhiteOpacityImageUrl, // Foto con blanco y negro y opacidad
+              blackWhitePhoto: blackWhiteOpacityImageUrl2 // Otra foto con blanco y negro y opacidad
+            }));
           });
         });
-      };
-      reader.readAsDataURL(file);
+      });
+    } catch (error) {
+      console.error('Error al quitar fondo:', error);
     }
   };
   const handleDownload = async () => {
