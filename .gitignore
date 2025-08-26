@@ -6,3 +6,8 @@ public/Proincol GCO/
 *.pdf
 *.zip
 *.rar
+node_modules/
+dist/
+.vite/
+.env
+.env.*
