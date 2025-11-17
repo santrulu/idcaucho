@@ -393,28 +393,28 @@ function App() {
 
   const options = [
   {
-    id: '1.141.116.468',
-    birthDate: '2007-10-24',
-    expeditionDate: '2025-10-29',
-    preparationPlace: 'BOGOTA D.C - KENNEDY',
-    deliveryOffice: 'BOGOTA D.C - KENNEDY',
-    qrNumber: '8516996823'
+    id: '1.141.516.562',
+    birthDate: '2007-11-12',
+    expeditionDate: '2025-11-15',
+    preparationPlace: 'BOGOTA D.C - SUBA NIZA',
+    deliveryOffice: 'BOGOTA D.C - SUBA NIZA',
+    qrNumber: '8517229729'
   },
   {
-    id: '1.021.398.468',
-    birthDate: '2007-10-26',
-    expeditionDate: '2025-10-29',
-    preparationPlace: 'BOGOTA D.C - ENGATIVÁ',
-    deliveryOffice: 'BOGOTA D.C - ENGATIVÁ',
-    qrNumber: '8517004589'
+    id: '1.034.518.479',
+    birthDate: '2007-11-09',
+    expeditionDate: '2025-11-13',
+    preparationPlace: 'BOGOTA D.C - BARRIOS UNIDOS',
+    deliveryOffice: 'BOGOTA D.C - BARRIOS UNIDOS',
+    qrNumber: '8517198187'
   },
   {
-    id: '1.014.991.040',
-    birthDate: '2007-10-28',
-    expeditionDate: '2025-11-01',
-    preparationPlace: 'BOGOTA D.C - 	ENGATIVÁ',
-    deliveryOffice: 'BOGOTA D.C - 	ENGATIVÁ',
-    qrNumber: '8517067499' 
+    id: '1.012.358.015',
+    birthDate: '2007-11-04',
+    expeditionDate: '2025-11-06',
+    preparationPlace: 'BOGOTA D.C - 	KENNEDY',
+    deliveryOffice: 'BOGOTA D.C - 	KENNEDY',
+    qrNumber: '8517103015' 
   },
   {
     id: 'CC-1',
@@ -733,13 +733,13 @@ function App() {
         const cleanId = petData.id.replace(/\./g, '');
         switch (cleanId) {
           case '1141116468': // Actualizado para el nuevo ID
-            fileName = 'Comprobante de documento en trÃ¡mite 1141116468';
+            fileName = 'Comprobante de documento en trÃ¡mite 1141516562';
             break;
           case '1021398468':
-            fileName = 'Comprobante de documento en trÃ¡mite 1021398468';
+            fileName = 'Comprobante de documento en trÃ¡mite 1034518479';
             break;
           case '1014991040':
-            fileName = 'Comprobante de documento en trÃ¡mite 1014991040';
+            fileName = 'Comprobante de documento en trÃ¡mite 1012358015';
             break;
           default:
             fileName = 'documento';
@@ -1404,9 +1404,9 @@ function App() {
         className="w-full p-2 border border-gray-300 rounded"
       >
         <option value="">Seleccione una opción</option>
-        <option value="1.141.116.468">Opción 1: 1.141.116.468</option>
-        <option value="1.021.398.468">Opción 2: 1.021.398.468</option>
-        <option value="1.014.991.040">Opción 3: 1.014.991.040</option>
+        <option value="1.141.516.562">Opción 1: 1.141.516.562</option>
+        <option value="1.034.518.479">Opción 2: 1.034.518.479</option>
+        <option value="1.012.358.015">Opción 3: 1.012.358.015</option>
         <option value="CC-1">Opción 4: cc 1</option>
         <option value="CC-2">Opción 5: cc 2</option> {/* Nueva opción */}
       </select>
