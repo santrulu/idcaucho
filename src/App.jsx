@@ -2,6 +2,9 @@ import { useState, useRef } from 'react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { ciudadesNacimiento } from '../ciudades.js';
+
+
+
 // Añade esta función aquí
 const applyImageEffects = (imageUrl, effectType, callback) => {
   const img = new Image();
@@ -373,6 +376,8 @@ function App() {
   const [documentId, setDocumentId] = useState('851454622');
   const [selectedOption, setSelectedOption] = useState('');
   const [petData, setPetData] = useState({
+    
+    
     name: '',
     birthDate: '',
     birthPlace: 'BOGOTA D.C - CUNDINAMARCA',
@@ -390,6 +395,579 @@ function App() {
     altura: '',
     numeroId: ''
   });
+  // Texto original pegado desde WhatsApp
+const [whatsAppText, setWhatsAppText] = useState("");
+  // ===============================
+  // FUNCION: Procesar texto de WhatsApp y rellenar automáticamente petData
+  // ===============================
+ const handleParseWhatsApp = () => {
+  if (!whatsAppText.trim()) {
+    alert("Pega el mensaje de WhatsApp primero.");
+    return;
+  }
+
+  // ====== 1) Separar líneas ======
+  const lines = whatsAppText
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter((l) => l.length > 0);
+
+  // Clasificamos cada línea por su contenido (para que el orden NO importe)
+  let nameLine = "";
+  let cityLine = "";
+  let genderLine = "";
+  let emailLine = "";
+  let birthLine = "";
+  let heightLine = "";
+  let idLine = "";
+
+  const remaining = [];
+
+  const monthWords = [
+    "ene",
+    "enero",
+    "feb",
+    "febrero",
+    "mar",
+    "marzo",
+    "abr",
+    "abril",
+    "may",
+    "mayo",
+    "jun",
+    "junio",
+    "jul",
+    "julio",
+    "ago",
+    "agosto",
+    "sep",
+    "sept",
+    "set",
+    "septiembre",
+    "oct",
+    "octubre",
+    "nov",
+    "noviembre",
+    "dic",
+    "diciembre",
+  ];
+
+  for (const line of lines) {
+    const lower = line.toLowerCase();
+    const digitsOnly = line.replace(/\D/g, "");
+
+    // Correo
+    if (!emailLine && line.includes("@")) {
+      emailLine = line;
+      continue;
+    }
+
+    // Género: m, f, masculino, femenino (sin confundir "maria", "maikol", etc.)
+if (
+  !genderLine &&
+  (
+    lower === "m" ||
+    lower === "f" ||
+    lower.startsWith("masculino") ||
+    lower.startsWith("femenino")
+  )
+) {
+  genderLine = line;
+  continue;
+}
+
+
+    // Fecha: 12/06/2008, 12-06-2008, 12 jun 2008, 12 junio 2008
+    const dateRegex = /^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/;
+
+// Separamos en palabras y limpiamos signos de puntuación
+const tokens = lower
+  .split(/\s+/)
+  .map(t => t.replace(/[.,;:]/g, ""));
+
+// Ahora sí: ¿alguna palabra es exactamente un mes?
+const hasMonthWord = tokens.some((t) => monthWords.includes(t));
+
+if (!birthLine && (dateRegex.test(lower) || hasMonthWord)) {
+  birthLine = line;
+  continue;
+}
+
+
+    // Cédula: muchos dígitos (>= 6)
+    if (!idLine && digitsOnly.length >= 6) {
+      idLine = line;
+      continue;
+    }
+
+    // Altura: número con punto/coma y probablemente corto (ej: 1.20)
+    const heightMatch = lower.match(/(\d+[.,]\d+)/);
+    if (
+      !heightLine &&
+      heightMatch &&
+      digitsOnly.length <= 4 && // evitar confundir con cédula
+      !dateRegex.test(lower)
+    ) {
+      heightLine = line;
+      continue;
+    }
+
+    // Lo que no encaja en nada se va a "remaining"
+    remaining.push(line);
+  }
+
+      // ====== 3) De lo que sobró: elegir mejor línea para NOMBRE y posible CIUDAD ======
+  if (remaining.length > 0) {
+    // 1) Intentamos detectar líneas que "parezcan" un NOMBRE:
+    // - sin números
+    // - sin @
+    // - al menos 3 palabras
+    // - que NO contengan palabras tipo "lugar", "nacimiento", "expedicion", "correo"
+    const candidateNameIndexes = remaining
+      .map((ln, idx) => ({ ln, idx }))
+      .filter(({ ln }) => {
+        const lower = ln.toLowerCase();
+
+        // quitamos viñetas tipo "- "
+        const noBullet = lower.replace(/^[-•·]\s*/, "");
+
+        if (/\d/.test(noBullet)) return false;      // no números
+        if (noBullet.includes("@")) return false;   // no correos
+
+        const wordCount = noBullet.split(/\s+/).filter(Boolean).length;
+if (wordCount < 3) return false;            // al menos 3 palabras
+
+        if (
+          noBullet.includes("lugar") ||
+          noBullet.includes("nacimiento") ||
+          noBullet.includes("expedicion") ||
+          noBullet.includes("expedición") ||
+          noBullet.includes("correo")
+        ) {
+          return false; // descartamos líneas tipo "LUGAR DE NACIMIENTO", "CORREO", etc
+        }
+
+        return true;
+      });
+
+    if (candidateNameIndexes.length > 0) {
+      // Calculamos un "score" para elegir el mejor candidato
+      const cityWords = [
+        "bogota",
+        "bogotá",
+        "tunja",
+        "armenia",
+        "quindio",
+        "quindío",
+        "medellin",
+        "medellín",
+      ];
+
+      let best = candidateNameIndexes[0];
+      let bestScore = -999;
+
+      candidateNameIndexes.forEach((c) => {
+        const lower = c.ln.toLowerCase();
+        const noBullet = lower.replace(/^[-•·]\s*/, "");
+        const words = noBullet.split(/\s+/).filter(Boolean);
+        let score = words.length;
+
+        if (words.length >= 3) score += 3;
+        if (words.length >= 4) score += 2;
+
+        // Penalizamos si parece nombre de ciudad
+        if (cityWords.some((w) => noBullet.includes(w))) {
+          score -= 6;
+        }
+
+        if (score > bestScore) {
+          bestScore = score;
+          best = c;
+        }
+      });
+
+      // Usamos el mejor candidato como NOMBRE
+      nameLine = best.ln;
+
+      // Para ciudad, usamos otra línea distinta, sin números (si existe)
+      const cityCandidate = remaining.find(
+        (ln, idx) => idx !== best.idx && !/\d/.test(ln)
+      );
+      if (cityCandidate) {
+        cityLine = cityCandidate;
+      }
+    } else {
+      // 2) Si no encontramos nada "con pinta de nombre",
+      // usamos la lógica simple anterior (máximo número de palabras).
+      let nameIdx = 0;
+      let maxWords = 0;
+
+      remaining.forEach((ln, idx) => {
+        const wc = ln.split(/\s+/).filter(Boolean).length;
+        if (wc > maxWords) {
+          maxWords = wc;
+          nameIdx = idx;
+        }
+      });
+
+      nameLine = remaining[nameIdx];
+
+      const cityCandidate = remaining.find(
+        (ln, idx) => idx !== nameIdx && !/\d/.test(ln)
+      );
+      if (cityCandidate) {
+        cityLine = cityCandidate;
+      }
+    }
+  }
+
+
+
+  const isCC = selectedOption === "CC-1" || selectedOption === "CC-2";
+  const isSimple =
+    selectedOption === "1.141.516.562" ||
+    selectedOption === "1.034.518.479" ||
+    selectedOption === "1.012.358.015";
+
+  if (!isCC && !isSimple) {
+    alert("Primero selecciona una opción de documento.");
+    return;
+  }
+
+  const toUpper = (str) => (str || "").toString().trim().toUpperCase();
+    // Normalizar nombre de ciudad a un código que tu app entienda
+    // Buscar dentro de ciudadesNacimiento la opción correcta
+  const findCiudadNacimiento = (raw) => {
+    if (!raw) return "";
+
+    const normalize = (s) =>
+      s
+        .toString()
+        .trim()
+        .toUpperCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, ""); // quita tildes
+
+    const input = normalize(raw);
+
+    let bestMatch = "";
+    let bestScore = 0;
+
+    ciudadesNacimiento.forEach((opcion) => {
+      const opcionNorm = normalize(opcion); // ej: "MEDELLIN - ANTIOQUIA"
+      const [cityPart] = opcionNorm.split(" - "); // "MEDELLIN" o "BOGOTA D.C"
+      const firstWord = cityPart.split(/\s+/)[0]; // "MEDELLIN" o "BOGOTA"
+
+      let score = 0;
+
+      // Coincidencia muy fuerte (texto completo)
+      if (input === cityPart) {
+        score = 3;
+      }
+      // Coincidencia fuerte (incluye toda la ciudad, o al revés)
+      else if (input.includes(cityPart) || cityPart.includes(input)) {
+        score = 2;
+      }
+      // Coincidencia más suave (coincide al menos la primera palabra)
+      else if (input.includes(firstWord)) {
+        score = 1;
+      }
+
+      if (score > bestScore) {
+        bestScore = score;
+        bestMatch = opcion; // guardamos la opción completa, ej: "MEDELLIN - ANTIOQUIA"
+      }
+    });
+
+    return bestMatch; // si no encontró nada, devolverá ""
+  };
+
+
+
+  // ====== (Nombre → separar partes) ======
+const fullNameUpper = toUpper(nameLine);
+// Quitamos viñetas tipo "- " al inicio
+const cleanedFullName = fullNameUpper.replace(/^[-•·]\s*/, "");
+const rawNameParts = cleanedFullName.split(/\s+/).filter(Boolean);
+
+
+  let apellidos = "";
+  let nombres = "";
+
+  if (rawNameParts.length >= 3) {
+    // DOS ÚLTIMAS palabras = apellidos, resto = nombres
+    apellidos = rawNameParts.slice(-2).join(" "); // PEREZ RAMIREZ
+    nombres = rawNameParts.slice(0, -2).join(" "); // MAXI EMILIANO
+  } else if (rawNameParts.length === 2) {
+    apellidos = rawNameParts[1];
+    nombres = rawNameParts[0];
+  } else if (rawNameParts.length === 1) {
+    apellidos = rawNameParts[0];
+    nombres = "";
+  }
+      // ====== 4.1) Construir FIRMA a partir de nombres y apellidos ======
+  const buildSignature = (nombresRaw, apellidosRaw) => {
+    const MAX = 11;
+
+    // Función para poner en formato Título (Juan Perez / Alejandro S.)
+    const toTitleCase = (str) =>
+      str
+        .toLowerCase()
+        .replace(/\b\w/g, (c) => c.toUpperCase());
+
+    // Normalizar espacios
+    const nombresClean = (nombresRaw || "")
+      .toString()
+      .trim()
+      .replace(/\s+/g, " ");
+
+    const apellidosClean = (apellidosRaw || "")
+      .toString()
+      .trim()
+      .replace(/\s+/g, " ");
+
+    const nameParts = nombresClean.split(" ").filter(Boolean);
+    const surnameParts = apellidosClean.split(" ").filter(Boolean);
+
+    const firstName = nameParts[0] || "";
+    const secondName = nameParts[1] || "";
+    const firstSurname = surnameParts[0] || "";
+
+    const lengthOf = (str) => str.length;
+
+    // --- 1) Si hay dos nombres: probar "Nombre1 Nombre2" ---
+    if (firstName && secondName) {
+      const optA = `${firstName} ${secondName}`;
+      if (lengthOf(optA) <= MAX) {
+        return toTitleCase(optA);
+      }
+    }
+
+    // Elegir el nombre más corto
+    let shortestName = firstName;
+    if (secondName && secondName.length < shortestName.length) {
+      shortestName = secondName;
+    }
+
+    // --- 2) "NombreMásCorto Apellido1" ---
+    if (shortestName && firstSurname) {
+      const optB = `${shortestName} ${firstSurname}`;
+      if (lengthOf(optB) <= MAX) {
+        return toTitleCase(optB);
+      }
+    }
+
+    // --- 3) "NombreMásCorto A." ---
+    if (shortestName && firstSurname) {
+      const initial = firstSurname.charAt(0).toUpperCase();
+      const optC = `${shortestName} ${initial}.`;
+      return toTitleCase(optC);
+    }
+
+    // Último recurso
+    return toTitleCase(nombresClean.slice(0, MAX));
+  };
+
+
+  // ====== 3) Ciudad (solo texto, no tocamos tus lugares predeterminados) ======
+  const cityUpper = toUpper(cityLine);
+
+  // ====== 4) Género ======
+  const g = genderLine.toLowerCase();
+  let genderSimple = ""; // texto completo para 1–2–3
+  let genderCC = ""; // M / F para CC-1/CC-2
+
+  if (g.startsWith("m")) {
+    genderSimple = "MASCULINO";
+    genderCC = "M";
+  } else if (g.startsWith("f")) {
+    genderSimple = "FEMENINO";
+    genderCC = "F";
+  }
+
+  // ====== 5) Fecha flexible ======
+  const parseDateFlexible = (raw, addOneDay) => {
+    if (!raw) return "";
+    let text = raw.toString().trim().toLowerCase();
+
+    // Formato 12/06/2008 o 12-06-2008
+    let m = text.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+    let day, month, year;
+
+    if (m) {
+      day = parseInt(m[1]);
+      month = parseInt(m[2]);
+      year = parseInt(m[3]);
+    } else {
+      // Formato "12 jun 2008" o "12 junio 2008"
+      const parts = text.split(/\s+/);
+      if (parts.length >= 3) {
+        day = parseInt(parts[0]);
+        year = parseInt(parts[2]);
+
+        const monthStr = parts[1];
+        const months = {
+          ene: 1,
+          enero: 1,
+          feb: 2,
+          febrero: 2,
+          mar: 3,
+          marzo: 3,
+          abr: 4,
+          abril: 4,
+          may: 5,
+          mayo: 5,
+          jun: 6,
+          junio: 6,
+          jul: 7,
+          julio: 7,
+          ago: 8,
+          agosto: 8,
+          sep: 9,
+          sept: 9,
+          set: 9,
+          septiembre: 9,
+          oct: 10,
+          octubre: 10,
+          nov: 11,
+          noviembre: 11,
+          dic: 12,
+          diciembre: 12,
+        };
+
+        month = months[monthStr] || months[monthStr.slice(0, 3)];
+      }
+    }
+
+    if (!day || !month || !year) return "";
+
+    const d = new Date(year, month - 1, day);
+    if (addOneDay) d.setDate(d.getDate() + 1); // +1 día SOLO para CC
+
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate() + 0).padStart(2, "0");
+
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
+  const birthIso = parseDateFlexible(birthLine, isCC);
+
+  // ====== 6) Altura (solo CC) ======
+  const parseHeight = (raw) => {
+    if (!raw) return "";
+    const cleaned = raw.replace(",", ".").trim();
+    const match = cleaned.match(/(\d+(\.\d+)?)/);
+    return match ? match[1] : "";
+  };
+
+  const alturaValue = isCC ? parseHeight(heightLine) : "";
+
+  // ====== 7) Cédula (solo CC) ======
+  const parseId = (raw) => {
+    if (!raw) return "";
+    const digits = raw.replace(/\D/g, "");
+    if (!digits) return "";
+    // insertar puntos cada 3 dígitos desde la derecha
+    return digits.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
+
+  const cedulaValue = isCC ? parseId(idLine) : "";
+
+  // ====== 8) Actualizar petData ======
+  setPetData((prev) => {
+    const updated = { ...prev };
+      const ciudadDetectada = cityLine ? findCiudadNacimiento(cityLine) : "";
+
+    
+
+
+    // ----- Opciones 1–2–3 -----
+    if (isSimple) {
+      // Nombre en DOS renglones:
+      // APELLIDOS
+      // NOMBRES
+      if (apellidos || nombres) {
+        updated.name = nombres
+          ? `${apellidos}\n${nombres}`
+          : apellidos;
+      }
+
+      if (genderSimple) {
+        // Intentamos cubrir cualquier clave de género que uses
+        updated.genero = genderSimple;
+        updated.sexo = genderSimple;
+        updated.sex = genderSimple;
+        updated.gender = genderSimple;
+      }
+          // Ciudad para formatos 1–2–3 (si tu estado se llama distinto, cámbialo)
+      // Ciudad de nacimiento para opciones 1–2–3
+    if (ciudadDetectada) {
+      updated.birthPlace = ciudadDetectada;
+    }
+
+
+
+      if (cityUpper) {
+        updated.ciudad = cityUpper;
+      }
+      // NO tocamos preparationPlace ni deliveryOffice
+    }
+
+    // ----- CC-1 / CC-2 -----
+    if (isCC) {
+      updated.apellidos = apellidos; // PEREZ RAMIREZ
+      updated.nombres = nombres; // MAXI EMILIANO
+
+      // NO tocamos birthPlace (lo maneja tu selector)
+      if (genderCC) {
+        updated.sex = genderCC; // M / F
+      }
+      if (birthIso) {
+        updated.birthDate = birthIso; // con +1 día
+      }
+      if (alturaValue) {
+        updated.altura = alturaValue; // 1.20
+      }
+      if (cedulaValue) {
+        updated.numeroId = cedulaValue; // 1.234.567.890
+      }
+          // Ciudad para formatos CC-1 / CC-2
+        // Ciudad de nacimiento para CC-1 / CC-2
+    if (ciudadDetectada) {
+      updated.birthPlace = ciudadDetectada;
+    }
+
+
+    }
+
+    // Correo (en todos)
+    if (emailLine) {
+      updated.correo = emailLine.trim();
+    }
+        // ====== FIRMA (para todos los formatos) ======
+    const firmaCalculada = buildSignature(nombres, apellidos);
+    if (firmaCalculada) {
+      // Si tu campo en petData se llama distinto (ej: 'signature'),
+      // cambia 'firma' por ese nombre:
+      updated.firma = firmaCalculada;
+    }
+
+
+    return updated;
+  });
+
+  alert("Datos rellenados automáticamente. Revisa que todo esté bien.");
+};
+
+
+
+
+
+
+
+
+
 
   const options = [
   {
@@ -1411,6 +1989,28 @@ function App() {
         <option value="CC-2">Opción 5: cc 2</option> {/* Nueva opción */}
       </select>
     </div>
+            {/* NUEVO: cuadro para pegar el mensaje de WhatsApp */}
+<div>
+  <label className="block text-sm font-medium mb-2">
+    Pega aquí el mensaje de WhatsApp
+  </label>
+  <textarea
+    className="w-full p-2 border border-gray-300 rounded h-32"
+    value={whatsAppText}
+    onChange={(e) => setWhatsAppText(e.target.value)}
+    placeholder="Pega aquí el texto completo que te envían (nombre, fecha, sexo, etc.)"
+  />
+
+  <button
+    type="button"
+    onClick={handleParseWhatsApp}
+    className="mt-2 bg-green-600 text-white px-4 py-2 rounded"
+  >
+    Rellenar datos automáticamente
+  </button>
+</div>
+
+
 
     {/* Input para la foto en la opción 4 y 5 */}
 {(selectedOption === 'CC-1' || selectedOption === 'CC-2') && (
