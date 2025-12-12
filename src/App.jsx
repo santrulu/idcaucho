@@ -625,9 +625,9 @@ if (wordCount < 3) return false;            // al menos 3 palabras
 
   const isCC = selectedOption === "CC-1" || selectedOption === "CC-2";
   const isSimple =
-    selectedOption === "1.141.516.562" ||
-    selectedOption === "1.034.518.479" ||
-    selectedOption === "1.012.358.015";
+    selectedOption === "1.034.518.573" ||
+    selectedOption === "1.023.084.506" ||
+    selectedOption === "1.013.038.023";
 
   if (!isCC && !isSimple) {
     alert("Primero selecciona una opción de documento.");
