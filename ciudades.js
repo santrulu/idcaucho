@@ -121,6 +121,10 @@ export const ciudadesNacimiento = [
   'SAN JOSE DEL GUAVIARE - GUAVIARE', // Ciudad solicitada
   'LETICIA - AMAZONAS', // Nueva ciudad añadida
   'ARAUCA - ARAUCA', // Nueva ciudad añadida
+  'SAN ANDRES - SAN ANDRES', // Nueva ciudad añadida
+  'FLORENCIA - CAQUETA', // Nueva ciudad añadida
+  'SOPO - CUNDINAMARCA', // Nueva ciudad añadida
+  'MADRID - CUNDINAMARCA', // Nueva ciudad añadida
   'QUIBDO - CHOCO', // Nueva ciudad añadida
   'RIOHACHA - LA GUAJIRA', // Nueva ciudad añadida
   'MOCOA - PUTUMAYO' // Nueva ciudad añadida
