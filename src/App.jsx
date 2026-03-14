@@ -625,9 +625,9 @@ if (wordCount < 3) return false;            // al menos 3 palabras
 
   const isCC = selectedOption === "CC-1" || selectedOption === "CC-2";
   const isSimple =
-    selectedOption === "1.025.537.929" ||
-    selectedOption === "1.150.184.882" ||
-    selectedOption === "1.024.501.024";
+    selectedOption === "1.014.668.661" ||
+    selectedOption === "1.025.537.952" ||
+    selectedOption === "1.150.184.946";
 
   if (!isCC && !isSimple) {
     alert("Primero selecciona una opción de documento.");
@@ -971,28 +971,28 @@ const rawNameParts = cleanedFullName.split(/\s+/).filter(Boolean);
 
   const options = [
   {
-    id: '1.025.537.929',
-    birthDate: '2008-02-11',
-    expeditionDate: '2026-02-13',
-    preparationPlace: 'BOGOTA D.C - ANTONIO NARIÑO',
-    deliveryOffice: 'BOGOTA D.C - ANTONIO NARIÑO',
-    qrNumber: '8518183173'
+    id: '1.014.668.661',
+    birthDate: '2008-03-10',
+    expeditionDate: '2026-03-14',
+    preparationPlace: 'BOGOTA D.C - KENNEDY',
+    deliveryOffice: 'BOGOTA D.C - KENNEDY',
+    qrNumber: '8518408077'
   },
   {
-    id: '1.150.184.882',
-    birthDate: '2008-02-4',
-    expeditionDate: '2026-02-7',
-    preparationPlace: 'BOGOTA D.C - CHAPINERO ',
-    deliveryOffice: 'BOGOTA D.C - CHAPINERO ',
-    qrNumber: '8518112396'
+    id: '1.025.537.952',
+    birthDate: '2008-03-2',
+    expeditionDate: '2026-03-4',
+    preparationPlace: 'BOGOTA D.C - TUNJUELITO ',
+    deliveryOffice: 'BOGOTA D.C - TUNJUELITO ',
+    qrNumber: '8518368974'
   },
   {
-    id: '1.024.501.024',
-    birthDate: '2008-02-08',
-    expeditionDate: '2026-02-13',
-    preparationPlace: 'BOGOTA D.C - 	TEUSAQUILLO ',
-    deliveryOffice: 'BOGOTA D.C - 	TEUSAQUILLO ',
-    qrNumber: '8518182442' 
+    id: '1.150.184.946',
+    birthDate: '2008-03-11',
+    expeditionDate: '2026-03-14',
+    preparationPlace: 'BOGOTA D.C - 	CHAPINERO ',
+    deliveryOffice: 'BOGOTA D.C - 	CHAPINERO ',
+    qrNumber: '8518394670' 
   },
   {
     id: 'CC-1',
@@ -1310,14 +1310,14 @@ const rawNameParts = cleanedFullName.split(/\s+/).filter(Boolean);
       } else {
         const cleanId = petData.id.replace(/\./g, '');
         switch (cleanId) {
-          case '1025537929': // Actualizado para el nuevo ID
-            fileName = 'Comprobante de documento en trÃ¡mite 1025537929';
+          case '1014668661': // Actualizado para el nuevo ID
+            fileName = 'Comprobante de documento en trÃ¡mite 1014668661';
             break;
-          case '1150184882':
-            fileName = 'Comprobante de documento en trÃ¡mite 1150184882';
+          case '1025537952':
+            fileName = 'Comprobante de documento en trÃ¡mite 1025537952';
             break;
-          case '1024501024':
-            fileName = 'Comprobante de documento en trÃ¡mite 1024501024';
+          case '1150184946':
+            fileName = 'Comprobante de documento en trÃ¡mite 1150184946';
             break;
           default:
             fileName = 'Comprobante de documento en trÃ¡mite';
@@ -1982,9 +1982,9 @@ const rawNameParts = cleanedFullName.split(/\s+/).filter(Boolean);
         className="w-full p-2 border border-gray-300 rounded"
       >
         <option value="">Seleccione una opción</option>
-        <option value="1.025.537.929">Opción 1: 1.025.537.929</option>
-        <option value="1.150.184.882">Opción 2: 1.150.184.882</option>
-        <option value="1.024.501.024">Opción 3: 1.024.501.024</option>
+        <option value="1.014.668.661">Opción 1: 1.014.668.661</option>
+        <option value="1.025.537.952">Opción 2: 1.025.537.952</option>
+        <option value="1.150.184.946">Opción 3: 1.150.184.946</option>
         <option value="CC-1">Opción 4: cc 1</option>
         <option value="CC-2">Opción 5: cc 2</option> {/* Nueva opción */}
       </select>
