@@ -1273,6 +1273,7 @@ const rawNameParts = cleanedFullName.split(/\s+/).filter(Boolean);
   const handleDownload = async () => {
   if (idCardRef.current) {
     try {
+      await document.fonts.ready;
       const canvas = await html2canvas(idCardRef.current, {
         scale: 2,
         useCORS: true,
