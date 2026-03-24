@@ -1274,6 +1274,7 @@ const rawNameParts = cleanedFullName.split(/\s+/).filter(Boolean);
   if (idCardRef.current) {
     try {
       await document.fonts.ready;
+      await document.fonts.load("20px 'OCRB'");
       const canvas = await html2canvas(idCardRef.current, {
         scale: 2,
         useCORS: true,
