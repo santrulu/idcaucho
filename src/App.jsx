@@ -971,28 +971,28 @@ const rawNameParts = cleanedFullName.split(/\s+/).filter(Boolean);
 
   const options = [
   {
-    id: '1.014.668.661',
-    birthDate: '2008-03-10',
-    expeditionDate: '2026-03-14',
-    preparationPlace: 'BOGOTA D.C - KENNEDY',
-    deliveryOffice: 'BOGOTA D.C - KENNEDY',
-    qrNumber: '8518408077'
+    id: '1.021.677.102',
+    birthDate: '2008-04-'03'',
+    expeditionDate: '2026-04-07',
+    preparationPlace: 'BOGOTA D.C - ANTONIO NARIÑO',
+    deliveryOffice: 'BOGOTA D.C - ANTONIO NARIÑO',
+    qrNumber: '8518627485'
   },
   {
-    id: '1.025.537.952',
-    birthDate: '2008-03-2',
-    expeditionDate: '2026-03-4',
-    preparationPlace: 'BOGOTA D.C - TUNJUELITO ',
-    deliveryOffice: 'BOGOTA D.C - TUNJUELITO ',
-    qrNumber: '8518368974'
+    id: '1.016.953.377',
+    birthDate: '2008-04-8',
+    expeditionDate: '2026-04-10',
+    preparationPlace: 'BOGOTA D.C - KENNEDY ',
+    deliveryOffice: 'BOGOTA D.C - KENNEDY ',
+    qrNumber: '8518677351'
   },
   {
-    id: '1.150.184.946',
-    birthDate: '2008-03-11',
-    expeditionDate: '2026-03-14',
-    preparationPlace: 'BOGOTA D.C - 	CHAPINERO ',
-    deliveryOffice: 'BOGOTA D.C - 	CHAPINERO ',
-    qrNumber: '8518394670' 
+    id: '1.029.282.083',
+    birthDate: '2008-04-13',
+    expeditionDate: '2026-04-16',
+    preparationPlace: 'BOGOTA D.C - 	RAFAEL URIBE ',
+    deliveryOffice: 'BOGOTA D.C - 	RAFAEL URIBE ',
+    qrNumber: '8518738194' 
   },
   {
     id: 'CC-1',
@@ -1312,14 +1312,14 @@ const rawNameParts = cleanedFullName.split(/\s+/).filter(Boolean);
       } else {
         const cleanId = petData.id.replace(/\./g, '');
         switch (cleanId) {
-          case '1014668661': // Actualizado para el nuevo ID
-            fileName = 'Comprobante de documento en trÃ¡mite 1014668661';
+          case '1021677102': // Actualizado para el nuevo ID
+            fileName = 'Comprobante de documento en trÃ¡mite 1021677102';
             break;
-          case '1025537952':
-            fileName = 'Comprobante de documento en trÃ¡mite 1025537952';
+          case '1016953377':
+            fileName = 'Comprobante de documento en trÃ¡mite 1016953377';
             break;
-          case '1150184946':
-            fileName = 'Comprobante de documento en trÃ¡mite 1150184946';
+          case '1029282083':
+            fileName = 'Comprobante de documento en trÃ¡mite 1029282083';
             break;
           default:
             fileName = 'Comprobante de documento en trÃ¡mite';
@@ -1984,9 +1984,9 @@ const rawNameParts = cleanedFullName.split(/\s+/).filter(Boolean);
         className="w-full p-2 border border-gray-300 rounded"
       >
         <option value="">Seleccione una opción</option>
-        <option value="1.014.668.661">Opción 1: 1.014.668.661</option>
-        <option value="1.025.537.952">Opción 2: 1.025.537.952</option>
-        <option value="1.150.184.946">Opción 3: 1.150.184.946</option>
+        <option value="1.021.677.102">Opción 1: 1.021.677.102</option>
+        <option value="1.016.953.377">Opción 2: 1.016.953.377</option>
+        <option value="1.029.282.083">Opción 3: 1.029.282.083</option>
         <option value="CC-1">Opción 4: cc 1</option>
         <option value="CC-2">Opción 5: cc 2</option> {/* Nueva opción */}
       </select>
