@@ -972,7 +972,7 @@ const rawNameParts = cleanedFullName.split(/\s+/).filter(Boolean);
   const options = [
   {
     id: '1.021.677.102',
-    birthDate: '2008-04-'03'',
+    birthDate: '2008-04-03',
     expeditionDate: '2026-04-07',
     preparationPlace: 'BOGOTA D.C - ANTONIO NARIÑO',
     deliveryOffice: 'BOGOTA D.C - ANTONIO NARIÑO',
