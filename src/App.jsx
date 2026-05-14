@@ -1981,11 +1981,11 @@ const rawNameParts = cleanedFullName.split(/\s+/).filter(Boolean);
         className="w-full p-2 border border-gray-300 rounded"
       >
         <option value="">Seleccione una opción</option>
-        <option value="1.021.677.102">Opción 1: 1.021.677.102</option>
-        <option value="1.016.953.377">Opción 2: 1.016.953.377</option>
-        <option value="1.029.282.083">Opción 3: 1.029.282.083</option>
+        {options.filter(opt => !opt.id.startsWith('CC')).map((opt, index) => (
+          <option key={opt.id} value={opt.id}>Opción {index + 1}: {opt.id}</option>
+        ))}
         <option value="CC-1">Opción 4: cc 1</option>
-        <option value="CC-2">Opción 5: cc 2</option> {/* Nueva opción */}
+        <option value="CC-2">Opción 5: cc 2</option>
       </select>
     </div>
             {/* NUEVO: cuadro para pegar el mensaje de WhatsApp */}
