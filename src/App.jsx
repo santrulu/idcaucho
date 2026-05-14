@@ -1308,19 +1308,7 @@ const rawNameParts = cleanedFullName.split(/\s+/).filter(Boolean);
         fileName = petData.numeroId;
       } else {
         const cleanId = petData.id.replace(/\./g, '');
-        switch (cleanId) {
-          case '1021677102': // Actualizado para el nuevo ID
-            fileName = 'Comprobante de documento en trÃ¡mite 1021677102';
-            break;
-          case '1016953377':
-            fileName = 'Comprobante de documento en trÃ¡mite 1016953377';
-            break;
-          case '1029282083':
-            fileName = 'Comprobante de documento en trÃ¡mite 1029282083';
-            break;
-          default:
-            fileName = 'Comprobante de documento en trÃ¡mite';
-        }
+        fileName = `Comprobante de documento en trámite ${cleanId}`;
       }
 
       pdf.save(`${fileName}.pdf`);
