@@ -56,6 +56,26 @@ const applyImageEffects = (imageUrl, effectType, callback) => {
 };
 
 
+function splitNameSegments(name) {
+  const words = name.trim().split(/\s+/);
+  const segments = [];
+  let i = 0;
+  while (i < words.length) {
+    const w = words[i].toLowerCase();
+    if (w === "de" && i + 2 < words.length && ["la", "los", "las"].includes(words[i + 1].toLowerCase())) {
+      segments.push(words.slice(i, i + 3).join(" "));
+      i += 3;
+    } else if ((w === "de" || w === "del") && i + 1 < words.length) {
+      segments.push(words.slice(i, i + 2).join(" "));
+      i += 2;
+    } else {
+      segments.push(words[i]);
+      i++;
+    }
+  }
+  return segments;
+}
+
 const styles = {
   idCardContainer: {
     width: '892px',
@@ -685,21 +705,19 @@ if (wordCount < 3) return false;            // al menos 3 palabras
 const fullNameUpper = toUpper(nameLine);
 // Quitamos viñetas tipo "- " al inicio
 const cleanedFullName = fullNameUpper.replace(/^[-•·]\s*/, "");
-const rawNameParts = cleanedFullName.split(/\s+/).filter(Boolean);
-
+const segments = splitNameSegments(cleanedFullName);
 
   let apellidos = "";
   let nombres = "";
 
-  if (rawNameParts.length >= 3) {
-    // DOS ÚLTIMAS palabras = apellidos, resto = nombres
-    apellidos = rawNameParts.slice(-2).join(" "); // PEREZ RAMIREZ
-    nombres = rawNameParts.slice(0, -2).join(" "); // MAXI EMILIANO
-  } else if (rawNameParts.length === 2) {
-    apellidos = rawNameParts[1];
-    nombres = rawNameParts[0];
-  } else if (rawNameParts.length === 1) {
-    apellidos = rawNameParts[0];
+  if (segments.length >= 3) {
+    apellidos = segments.slice(-2).join(" ");
+    nombres = segments.slice(0, -2).join(" ");
+  } else if (segments.length === 2) {
+    apellidos = segments[1];
+    nombres = segments[0];
+  } else if (segments.length === 1) {
+    apellidos = segments[0];
     nombres = "";
   }
       // ====== 4.1) Construir FIRMA a partir de nombres y apellidos ======
