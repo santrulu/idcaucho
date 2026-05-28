@@ -508,7 +508,10 @@ const tokens = lower
 // Ahora sí: ¿alguna palabra es exactamente un mes?
 const hasMonthWord = tokens.some((t) => monthWords.includes(t));
 
-if (!birthLine && (dateRegex.test(lower) || hasMonthWord)) {
+const hasDay = tokens.some(t => /^\d{1,2}$/.test(t) && parseInt(t) >= 1 && parseInt(t) <= 31);
+const hasYear = tokens.some(t => /^\d{4}$/.test(t));
+
+if (!birthLine && (dateRegex.test(lower) || (hasMonthWord && hasDay && hasYear))) {
   birthLine = line;
   continue;
 }
