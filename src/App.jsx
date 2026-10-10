@@ -989,28 +989,28 @@ const segments = splitNameSegments(cleanedFullName);
 
   const options = [
     {
-      id: '1.125.271.706',
-      birthDate: '2008-08-27',
-      expeditionDate: '2026-08-30',
-      preparationPlace: 'BOGOTA D.C - TEUSAQUILLO',
-      deliveryOffice: 'BOGOTA D.C - TEUSAQUILLO',
-      qrNumber: '8519967399'
+      id: '1.147.86.291',
+      birthDate: '2008-10-06',
+      expeditionDate: '2026-10-09',
+      preparationPlace: 'BOGOTA D.C - USAQUEN',
+      deliveryOffice: 'BOGOTA D.C - USAQUEN',
+      qrNumber: '8520376561'
     },
     {
-      id: '1.141.118.103',
-      birthDate: '2008-08-26',
-      expeditionDate: '2026-08-29',
-      preparationPlace: 'BOGOTA D.C - ENGATIVÁ  ',
-      deliveryOffice: 'BOGOTA D.C - ENGATIVÁ  ',
-      qrNumber: '8519965330'
+      id: '1.025.063.679',
+      birthDate: '2008-10-07',
+      expeditionDate: '2026-10-11',
+      preparationPlace: 'BOGOTA D.C - TEUSAQUILLO  ',
+      deliveryOffice: 'BOGOTA D.C - TEUSAQUILLO  ',
+      qrNumber: '8520403166'
     },
     {
-      id: '1.013.122.671',
-      birthDate: '2008-08-08',
-      expeditionDate: '2026-08-11',
-      preparationPlace: 'BOGOTA D.C - BOSA',
-      deliveryOffice: 'BOGOTA D.C - BOSA',
-      qrNumber: '8519785225'
+      id: '1.030.580.090',
+      birthDate: '2008-09-26',
+      expeditionDate: '2026-09-30',
+      preparationPlace: 'BOGOTA D.C - KENNEDY',
+      deliveryOffice: 'BOGOTA D.C - KENNEDY',
+      qrNumber: '8520275650'
     },
     {
       id: 'CC-1',
